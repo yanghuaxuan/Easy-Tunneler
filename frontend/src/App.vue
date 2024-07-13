@@ -5,8 +5,8 @@ import { mdiWrenchOutline, mdiTunnelOutline } from '@mdi/js'
 </script>
 
 <template>
-  <v-container class="d-flex justify-center align-center h-screen w-screen">
-    <v-card class="pa-3 w-75 container" variant="flat" rounded="lg">
+  <v-container class="d-flex justify-center w-screen h-screen container">
+    <v-card class="pa-3 card w-75 h-55" variant="flat" rounded="lg">
       <v-row>
         <v-col cols="8">
           <h1 class="text-h3">Easy-Tunneler</h1>
@@ -32,8 +32,11 @@ import { mdiWrenchOutline, mdiTunnelOutline } from '@mdi/js'
   background-color: #FEF9EB
 } */
  .container {
+  height: dvh;
+ }
+ .card {
   background-color: var(--color-surface-container);
-  color: var(--color-on-surface)
+  color: var(--color-on-surface);
  }
  .toggle {
   border-color: var(--color-outline)

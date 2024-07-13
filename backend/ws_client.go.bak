@@ -1,0 +1,30 @@
+// A client represents a connection in WebSockets
+package main
+
+import (
+	"log"
+	"github.com/gorilla/websocket"
+)
+
+type Client struct {
+	hub *Hub
+	conn *websocket.Conn
+}
+
+func (c *Client) read_pump() {
+	defer func() {
+		c.hub.unregister <- c
+	}()
+
+	for {
+		_, message, err := c.conn.ReadMessage()
+		if err != nil {
+			if websocket.IsUnexpectedCloseError(err, websocket.CloseGoingAway, websocket.CloseAbnormalClosure) {
+				log.Printf("error: %v", err)
+			}
+			break
+		}
+		log.Printf("message by client: %s", message)
+	}
+
+}

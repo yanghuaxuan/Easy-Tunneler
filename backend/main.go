@@ -21,6 +21,7 @@ import (
 // 	Tunnels []
 // }
 
+
 type Tunnels_header struct {
     Tunnels []Tunnel        `json:"tunnels"`
 }
@@ -76,7 +77,7 @@ func main() {
         for i := range spawner.tunnels {
             if (spawner.tunnels[i].Enabled) {
                 id := spawner.tunnels[i].Id
-                fmt.Println(*(spawner.procs[id].tunnel))
+                // fmt.Println(*(spawner.procs[id].tunnel))
                 t = append(t, struct {
                     Tunnel Tunnel       `json:"tunnel"`
                     Status TunnelStatus `json:"status"`
@@ -131,6 +132,43 @@ func main() {
         c.JSON(200, gin.H {
             "status": "Tunnel deleted",
         })
+    })
+
+    router.POST(apiv1 + "/add_tunnel", func (c *gin.Context) {
+        var req struct {
+            Name string                 `json:"name"`
+            Enabled bool                `json:"enabled"`
+            Local_port int              `json:"local_port"`
+            Host string                 `json:"host"`
+            Remote_port int             `json:"remote_port"`
+            Conn_addr string            `json:"conn_addr"`
+            Autoreboot bool             `json:"autoreboot"`
+        }
+        if err := c.BindJSON(&req); err != nil {
+            c.JSON(400, gin.H {
+                "status": "Invalid JSON!",
+            })
+            return
+        }
+        t := Tunnel {
+            genId(16),
+            req.Name,
+            req.Enabled,
+            req.Local_port,
+            req.Host,
+            req.Remote_port,
+            req.Conn_addr,
+            req.Autoreboot,
+        }
+        spawner.tunnels[t.Id] = t
+        if (req.Enabled) {
+            proc := start_tunnel(spawner.tunnels[t.Id])
+            spawner.procs[t.Id] = &proc
+            go track_exit(&proc)
+            if (req.Autoreboot) {
+                go auto_reboot_on_sig(&proc)
+            }
+        }
     })
 
     // router.GET("/api/v1/get_tunnels")

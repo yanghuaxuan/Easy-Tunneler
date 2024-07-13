@@ -7,6 +7,8 @@ import (
 	"os"
 	"os/exec"
 	"time"
+
+    "math/rand"
 	// "time"
 )
 
@@ -32,7 +34,7 @@ type Tunnel struct {
 
 type Tunnel_Process struct {
     cmd *exec.Cmd
-    tunnel *Tunnel
+    tunnel Tunnel
     status TunnelStatus
     autoreboot_chan chan bool
     // history string
@@ -44,6 +46,16 @@ type Spawner struct {
     procs map[string]*Tunnel_Process
 }
 
+/* very basic id builder */
+const alphanumeric = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+func genId(n int) string {
+    b := make([]byte, n)
+    for i := range n {
+        b[i] = alphanumeric[rand.Intn(len(alphanumeric))]
+    }
+    return string(b)
+}
+
 func init_spawner(tun []Tunnel) Spawner {
     tun_map := make(map[string]Tunnel)
     proc_map := make(map[string]*Tunnel_Process)
@@ -52,7 +64,7 @@ func init_spawner(tun []Tunnel) Spawner {
         t := tun[i]
         tun_map[t.Id] = t
         if t.Enabled {
-            proc := start_tunnel(&t)
+            proc := start_tunnel(t)
             fmt.Println("init_spawner: ", proc.tunnel)
             proc_map[t.Id] = &proc
             go track_exit(&proc)
@@ -109,7 +121,7 @@ func auto_reboot_on_sig(proc *Tunnel_Process) {
     go auto_reboot_on_sig(proc)
 }
 
-func start_tunnel(tun *Tunnel) Tunnel_Process {
+func start_tunnel(tun Tunnel) Tunnel_Process {
     cmd := exec.Command("/usr/bin/ssh", "-o", "ExitOnForwardFailure yes", "-N", "-L", fmt.Sprintf("%d:%s:%d", tun.Local_port, tun.Host, tun.Remote_port), tun.Conn_addr)
     cmd.Stderr = os.Stderr
     status := Online

@@ -33,34 +33,55 @@ const overlayFields = reactive(
     id: "",
     name: "",
     local_port: "",
+    host: "",
     remote_port: "",
     conn_addr: "",
+    enabled: true,
     autoreboot: false
   }
 )
 
-const enableEditOverlay = (t: Tunnel) => {
-  overlayFields.id = t.id
-  overlayFields.name = t.name
-  overlayFields.local_port = t.local_port.toString()
-  overlayFields.remote_port = t.remote_port.toString()
-  overlayFields.conn_addr = t.conn_addr
-  overlayFields.autoreboot = t.autoreboot
-  editOverlay.value = true
-}
+// const enableEditOverlay = (t: Tunnel) => {
+//   overlayFields.id = t.id
+//   overlayFields.name = t.name
+//   overlayFields.local_port = t.local_port.toString()
+//   overlayFields.remote_port = t.remote_port.toString()
+//   overlayFields.conn_addr = t.conn_addr
+//   overlayFields.autoreboot = t.autoreboot
+//   editOverlay.value = true
+// }
 
 const enableAddOverlay = () => {
-  overlayFields.id = ""
   overlayFields.name = ""
   overlayFields.local_port = ""
+  overlayFields.host = "localhost"
   overlayFields.remote_port = ""
   overlayFields.conn_addr = ""
+  overlayFields.enabled = true
   overlayFields.autoreboot = true
   addOverlay.value = true
 }
 
 const editOverlay = ref(false)
 const addOverlay = ref(false)
+
+const addTun = async () => {
+  let t = {
+    // id: overlayFields.id,
+    name: overlayFields.name,
+    local_port: parseInt(overlayFields.local_port),
+    host: overlayFields.host,
+    remote_port: parseInt(overlayFields.remote_port),
+    conn_addr: overlayFields.conn_addr,
+    enabled: overlayFields.enabled,
+    autoreboot: overlayFields.autoreboot
+  }
+  await fetch("http://localhost:4140/api/v1/add_tunnel", {
+    method: "POST",
+    body: JSON.stringify(t)
+  }) 
+  fetchTunnels()
+}
 
 const deleteTun = async (t: Tunnel) => {
   await fetch("http://localhost:4140/api/v1/remove_tunnel", {
@@ -191,9 +212,17 @@ onMounted(async () =>  {
           </v-row>
           <v-row>
             <v-col>
+              <v-text-field label="Name" v-model="overlayFields.name" variant="outlined"></v-text-field>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col cols="3">
               <v-text-field label="Local Port" v-model="overlayFields.local_port" variant="outlined"></v-text-field>
             </v-col>
             <v-col>
+              <v-text-field label="Host" v-model="overlayFields.host" variant="outlined"></v-text-field> 
+            </v-col>
+            <v-col cols="3">
               <v-text-field label="Remote Port" v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
             </v-col>
           </v-row>
@@ -213,7 +242,7 @@ onMounted(async () =>  {
             </v-col>
             <v-spacer cols />
             <v-col cols="3">
-              <v-btn variant="plain">Save</v-btn>
+              <v-btn @click="addTun()" variant="plain">Save</v-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -233,7 +262,7 @@ onMounted(async () =>  {
 .overlay {
   width: 30vw;
   /* max-width: 400px; */
-  min-width: 300px;
+  min-width: 500px;
   background-color: var(--color-surface-container);
   color: var(--color-on-surface);
 }

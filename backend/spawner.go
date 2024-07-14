@@ -12,7 +12,7 @@ import (
 	// "time"
 )
 
-const AUTOREBOOT_TIMEOUT = time.Second * 3
+const AUTOREBOOT_TIMEOUT = time.Second * 30
 
 type TunnelStatus int
 const (

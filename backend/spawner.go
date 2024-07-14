@@ -103,7 +103,7 @@ func auto_reboot_on_sig(proc *Tunnel_Process) {
     fmt.Println("Autorebooting!")
 
     tun := proc.tunnel
-    cmd := exec.Command("/usr/bin/ssh", "-o", "ExitOnForwardFailure yes", "-N", "-L", fmt.Sprintf("%d:%s:%d", tun.Local_port, tun.Host, tun.Remote_port), tun.Conn_addr)
+    cmd := exec.Command("/usr/bin/ssh", "-o", "ExitOnForwardFailure=yes", "-N", "-L", fmt.Sprintf("%d:%s:%d", tun.Local_port, tun.Host, tun.Remote_port), tun.Conn_addr)
     cmd.Stderr = os.Stderr
     proc.cmd = cmd
     log.Println(cmd)

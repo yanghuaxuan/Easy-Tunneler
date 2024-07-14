@@ -237,12 +237,12 @@ onMounted(async () =>  {
             </v-col>
           </v-row>
           <v-row class="d-flex justify-right">
-            <v-col cols="3">
+            <!-- <v-col cols="3">
               <v-btn variant="plain" :style="{ color: colors.red.base}">Delete</v-btn>
-            </v-col>
+            </v-col> -->
             <v-spacer cols />
             <v-col cols="3">
-              <v-btn @click="addTun()" variant="plain">Save</v-btn>
+              <v-btn @click="addTun(); addOverlay = false" variant="plain">Save</v-btn>
             </v-col>
           </v-row>
         </v-container>

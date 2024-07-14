@@ -26,3 +26,5 @@ go build -o easy_tunneler
 cp easy_tunneler ../build
 cp -R ./public ../build/
 popd
+
+cp .env ./build/.env

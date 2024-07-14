@@ -26,6 +26,8 @@ interface Tunnel {
   autoreboot: boolean 
 }
 
+const addr = `http://${import.meta.env.VITE_ADDRESS}:${import.meta.env.VITE_PORT}`
+
 const tunnels = ref<Tunnel_Status[]>([])
 
 const overlayFields = reactive(
@@ -76,7 +78,7 @@ const addTun = async () => {
     enabled: overlayFields.enabled,
     autoreboot: overlayFields.autoreboot
   }
-  await fetch("http://localhost:4140/api/v1/add_tunnel", {
+  await fetch(`${addr}/api/v1/add_tunnel`, {
     method: "POST",
     body: JSON.stringify(t)
   }) 
@@ -84,7 +86,7 @@ const addTun = async () => {
 }
 
 const deleteTun = async (t: Tunnel) => {
-  await fetch("http://localhost:4140/api/v1/remove_tunnel", {
+  await fetch(`${addr}/api/v1/remove_tunnel`, {
     method: "POST",
     body: JSON.stringify({id: t.id})
   })
@@ -93,7 +95,7 @@ const deleteTun = async (t: Tunnel) => {
 
 const fetchTunnels = async () => {
   console.log("fetching")
-  await fetch("http://localhost:4140/api/v1/tunnel_status")
+  await fetch(`${addr}/api/v1/tunnel_status`)
     .then(resp => {
       resp.json().then((j: Resp) => {
         tunnels.value = j.tunnel_status.sort((a,b) =>  a.tunnel.name > b.tunnel.name ? 1 : -1)

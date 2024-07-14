@@ -97,7 +97,8 @@ func main() {
             case <- stop_autosave:
                 return
             case <- autosave_ticker.C:
-                a := make([]Tunnel, len(tunnels))
+                log.Println("Autosaving!")
+                a := make([]Tunnel, 0)
                 for i := range spawner.tunnels {
                     a = append(a, spawner.tunnels[i])
                 }
@@ -160,7 +161,6 @@ func main() {
             return
         }
         proc.autoreboot_chan <- false
-        log.Println("xd")
         // close(proc.autoreboot_chan)
         delete(spawner.procs, req.Id)
         delete(spawner.tunnels, req.Id) 

@@ -8,6 +8,7 @@ import (
 	"syscall"
 
 	"github.com/gin-contrib/cors"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 	// "github.com/gorilla/websocket"
 )
@@ -44,6 +45,13 @@ func main() {
     // 	unregister: make(chan *Client),
     // }
     router.Use(cors.Default())
+
+    if (os.Getenv("EASY_TUNNELER_PROD") == "1") {
+        // var serv embed.FS
+        router.Use(static.Serve("/", static.LocalFile("./public", false)))
+    } else {
+        log.Println("You are running Easy-Tunneler in non-production mode. The frontend side is not served by the in this mode.To switch to production mode, set EASY_TUNNELER_PROD=1 in your environment.")
+    }
 
     var tunnels []Tunnel
 
@@ -183,6 +191,7 @@ func main() {
     // 	hub.register <- &client
     // 	go client.readPump()
     // })
+
 
     // go hub.handle_events()
     router.Run("0.0.0.0:4140")

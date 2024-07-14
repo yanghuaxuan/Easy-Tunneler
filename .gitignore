@@ -2,6 +2,9 @@
 node_modules/
 .vscode/
 
+.env
+build/
+
 # Logs
 logs
 *.log

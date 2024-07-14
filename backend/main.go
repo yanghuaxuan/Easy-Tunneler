@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"syscall"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
@@ -23,8 +24,22 @@ import (
 // }
 
 
+const tun_save_file = ".tunnels.json"
+
 type Tunnels_header struct {
     Tunnels []Tunnel        `json:"tunnels"`
+}
+
+func save_tunnels(tun []Tunnel) {
+    i := Tunnels_header {
+        tun,
+    }
+    dat, err := json.Marshal(i)
+    if (err != nil) {
+        log.Println("Cannot save to .tunnels.json!", err)
+        return
+    }
+    os.WriteFile(tun_save_file, dat, 0644) 
 }
 
 
@@ -72,6 +87,24 @@ func main() {
     }
 
     spawner := init_spawner(tunnels)
+
+    /* tunnel.json autosaver*/
+    stop_autosave := make(chan bool)
+    autosave_ticker := time.NewTicker(60 * time.Second)
+    go func() {
+        for {
+            select {
+            case <- stop_autosave:
+                return
+            case <- autosave_ticker.C:
+                a := make([]Tunnel, len(tunnels))
+                for i := range spawner.tunnels {
+                    a = append(a, spawner.tunnels[i])
+                }
+                save_tunnels(a)
+            }
+        }
+    }()
     
     const apiv1 = "/api/v1"
 

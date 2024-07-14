@@ -5,6 +5,7 @@ node_modules/
 .env
 build/
 backend/public
+easy_tunneler
 
 # Logs
 logs

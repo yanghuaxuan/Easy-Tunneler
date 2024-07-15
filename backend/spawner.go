@@ -65,7 +65,7 @@ func init_spawner(tun []Tunnel) Spawner {
         tun_map[t.Id] = t
         if t.Enabled {
             proc := start_tunnel(t)
-            fmt.Println("init_spawner: ", proc.tunnel)
+            log.Println("init_spawner: ", proc.tunnel)
             proc_map[t.Id] = &proc
             go track_exit(&proc)
             if (t.Autoreboot) {
@@ -100,7 +100,7 @@ func auto_reboot_on_sig(proc *Tunnel_Process) {
         return
     }
 
-    fmt.Println("Autorebooting!")
+    log.Println("Autorebooting!")
 
     tun := proc.tunnel
     cmd := exec.Command("ssh", "-o", "ExitOnForwardFailure=yes", "-N", "-L", fmt.Sprintf("%d:%s:%d", tun.Local_port, tun.Host, tun.Remote_port), tun.Conn_addr)

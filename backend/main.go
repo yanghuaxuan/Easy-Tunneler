@@ -73,17 +73,17 @@ func main() {
 
     dat, err := os.ReadFile(".tunnels.json")
     if (err == nil) {
-        fmt.Println("./tunnels.json found! Loading saved configuration")
+        log.Println("./tunnels.json found! Loading saved configuration")
         var f Tunnels_header
         err = json.Unmarshal(dat, &f)
         // fmt.Println("=====", f.Tunnels)
         if (err != nil) {
-            fmt.Println("Error occured while processing tunnels.json: ", err)
+            log.Println("Error occured while processing tunnels.json: ", err)
             return
         }
         tunnels = f.Tunnels
     } else {
-        fmt.Println("tunnels.json not found.")
+        log.Println("tunnels.json not found.")
         tunnels = make([]Tunnel, 0)
     }
 

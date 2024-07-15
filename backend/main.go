@@ -12,7 +12,6 @@ import (
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
 
-    "github.com/joho/godotenv"
 	// "github.com/gorilla/websocket"
 )
 
@@ -46,11 +45,6 @@ func save_tunnels(tun []Tunnel) {
 
 
 func main() {
-    err := godotenv.Load()
-    if err != nil {
-      log.Fatal("Error loading .env file")
-    }
-
     // upgrader := websocket.Upgrader{
     // 	ReadBufferSize:  1024,
     // 	WriteBufferSize: 1024,
@@ -233,8 +227,7 @@ func main() {
     // })
 
 
-    listen := os.Getenv("ADDRESS")
-    port := os.Getenv("PORT")
     // go hub.handle_events()
-    router.Run(fmt.Sprintf("%s:%s", listen, port))
+
+    router.Run("localhost:4140")
 }

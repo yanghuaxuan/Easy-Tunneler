@@ -26,7 +26,7 @@ interface Tunnel {
   autoreboot: boolean 
 }
 
-const addr = `http://${import.meta.env.VITE_ADDRESS}:${import.meta.env.VITE_PORT}`
+const addr = "http://localhost:4140"
 
 const tunnels = ref<Tunnel_Status[]>([])
 

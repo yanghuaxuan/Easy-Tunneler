@@ -229,5 +229,11 @@ func main() {
 
     // go hub.handle_events()
 
+    fmt.Println()
+    fmt.Println("===================================================")
+    fmt.Println("Easy-Tunneler running at http://localhost:4140.")
+    fmt.Println("===================================================")
+    fmt.Println()
+
     router.Run("localhost:4140")
 }

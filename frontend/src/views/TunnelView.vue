@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { mdiPlus } from "@mdi/js"
-import { onMounted, reactive } from "vue";
+import { onMounted, reactive, watch } from "vue";
 import { ref } from "vue";
 import { mdiArrowRightBold, mdiTrashCanOutline } from "@mdi/js"
 import colors from 'vuetify/util/colors'
@@ -94,11 +94,21 @@ const deleteTun = async (t: Tunnel) => {
 }
 
 const fetchTunnels = async () => {
-  console.log("fetching")
   await fetch(`${addr}/api/v1/tunnel_status`)
     .then(resp => {
       resp.json().then((j: Resp) => {
+        tunnels.value = []
         tunnels.value = j.tunnel_status.sort((a,b) =>  a.tunnel.name > b.tunnel.name ? 1 : -1)
+        for (const t of tunnels.value) {
+          watch(t, async (n, _) => {
+            console.log(JSON.stringify(n.tunnel))
+            await fetch(`${addr}/api/v1/update_tunnel`, {
+              method: "PATCH",
+              body: JSON.stringify(n.tunnel)
+            })
+            fetchTunnels()
+          })
+        }
       })
     })
     .catch(e => {
@@ -160,6 +170,9 @@ onMounted(async () =>  {
                 <v-icon :icon="mdiDotsVertical"></v-icon>
               </v-btn>
             </v-col> -->
+            <v-col class="d-flex align-center justify-end">
+              <v-switch v-model="t.tunnel.enabled" color="blue"></v-switch>
+            </v-col>
             <v-col cols="2" class="d-flex flex-row-reverse align-center">
               <v-btn variant="text" @click="deleteTun(t.tunnel)" >
                 <v-icon size="25" :icon="mdiTrashCanOutline"></v-icon>

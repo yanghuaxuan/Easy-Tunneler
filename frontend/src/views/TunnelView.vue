@@ -134,9 +134,12 @@ onMounted(async () =>  {
       <v-col class="d-flex justify-center">
         <v-card width="95%" class="pa-3" variant="outlined" rounded="xl">
           <v-row v-for="t in tunnels" :key="t.tunnel.id">
-            <v-col cols="1" class="d-flex align-center justify-center">
-              <div class="dot" :style="{'background-color': (t.status != undefined) ? ((t.status) ? 'green' : 'red') : 'black'}"></div>
-            </v-col>
+            <v-col cols="2" class="d-flex align-center justify-center">
+              <!-- <div class="dot" :style="{'background-color': (t.status != undefined) ? ((t.status) ? 'green' : 'red') : 'black'}"></div> -->
+              <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="8" cy="8" r="8" :fill="(t.status != undefined) ? ((t.status) ? 'green' : 'red') : 'black'" />
+              </svg> 
+                </v-col>
             <v-col class="d-flex align-center">
               <h3>{{ t.tunnel.name }}</h3>
             </v-col>

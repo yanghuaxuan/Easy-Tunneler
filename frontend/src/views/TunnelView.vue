@@ -181,7 +181,7 @@ onMounted(async () => {
             </v-col> -->
             <v-col class="d-flex justify-end">
               <!-- <v-switch @click.native.stop v-model="t.tunnel.enabled" color="blue"></v-switch> -->
-               <button @click.stop="console.log('xd')">Xd</button>
+               <TunnelSwitch @click.stop="" />
             </v-col>
             <!-- <v-col cols="1" class="d-flex justify-end ">
               <v-btn :icon="mdiTrashCanOutline" @click="deleteTun(t.tunnel)" />

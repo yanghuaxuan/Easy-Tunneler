@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router'
-import { mdiWrenchOutline, mdiTunnelOutline, mdiPlus } from '@mdi/js'
-import { useDisplay } from 'vuetify'
-
-const { smAndDown } = useDisplay();
 </script>
 
 <template>

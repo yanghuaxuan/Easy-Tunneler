@@ -160,28 +160,29 @@ onMounted(async () => {
 
 <template>
   <v-container class="tunnel-container">
-  <v-row class="d-flex align-center">
-    <v-col>
-      <h1 class="text-h3">Tunnels</h1>
-    </v-col>
-    <v-col class="d-flex justify-end">
-      <v-btn class="rounded-button" size="x-large" variant="text" :icon="mdiWrenchOutline" />
-    </v-col>
-  </v-row>
+    <v-row class="d-flex align-center">
+      <v-col>
+        <h1 class="text-h3">Tunnels</h1>
+      </v-col>
+      <v-col class="d-flex justify-end">
+        <v-btn class="rounded-button" size="x-large" variant="text" :icon="mdiWrenchOutline" />
+      </v-col>
+    </v-row>
     <v-row v-for="t in tunnels" :key="t.tunnel.id">
-    <v-col>
-      <v-card @click="enableEditOverlay(t.tunnel)" rounded="xl" class="pa-8 container" variant="flat">
-        <v-row class="d-flex align-center">
-          <v-col cols="2" class="d-flex justify-center">
-            <!-- <div class="dot" :style="{'background-color': (t.status != undefined) ? ((t.status) ? 'green' : 'red') : 'black'}"></div> -->
-            <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
-              <circle cx="8" cy="8" r="8" :fill="(t.status != undefined) ? ((t.status) ? 'green' : 'red') : 'black'" />
-            </svg>
-          </v-col>
-          <v-col>
-            <h3>{{ t.tunnel.name }}</h3>
-          </v-col>
-          <!-- <v-col class="d-flex align-center justify-center">
+      <v-col>
+        <v-card @click="enableEditOverlay(t.tunnel)" rounded="xl" class="pa-8 container" variant="flat">
+          <v-row class="d-flex align-center">
+            <v-col cols="2" class="d-flex justify-center">
+              <!-- <div class="dot" :style="{'background-color': (t.status != undefined) ? ((t.status) ? 'green' : 'red') : 'black'}"></div> -->
+              <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                <circle cx="8" cy="8" r="8"
+                  :fill="(t.status != undefined) ? ((t.status) ? 'green' : 'red') : 'black'" />
+              </svg>
+            </v-col>
+            <v-col>
+              <h3>{{ t.tunnel.name }}</h3>
+            </v-col>
+            <!-- <v-col class="d-flex align-center justify-center">
               <v-row>
                 <v-col>
                   <p>{{ t.tunnel.local_port }} <v-icon :icon="mdiArrowRightBold" /> {{ t.tunnel.remote_port }}</p>
@@ -193,22 +194,22 @@ onMounted(async () => {
                 </v-col>
               </v-row>
             </v-col> -->
-          <!-- <v-col cols="2" class="d-flex flex-row-reverse align-center">
+            <!-- <v-col cols="2" class="d-flex flex-row-reverse align-center">
               <v-btn variant="text" @click="enableEditOverlay(t.tunnel)">
                 <v-icon :icon="mdiDotsVertical"></v-icon>
               </v-btn>
             </v-col> -->
-          <v-col class="d-flex justify-end">
-            <!-- <v-switch @click.native.stop v-model="t.tunnel.enabled" color="blue"></v-switch> -->
-            <TunnelSwitch v-model="t.tunnel.enabled" @click.stop="" />
-          </v-col>
-          <!-- <v-col cols="1" class="d-flex justify-end ">
+            <v-col class="d-flex justify-end">
+              <!-- <v-switch @click.native.stop v-model="t.tunnel.enabled" color="blue"></v-switch> -->
+              <TunnelSwitch v-model="t.tunnel.enabled" @click.stop="" />
+            </v-col>
+            <!-- <v-col cols="1" class="d-flex justify-end ">
               <v-btn :icon="mdiTrashCanOutline" @click="deleteTun(t.tunnel)" />
             </v-col> -->
-        </v-row>
-      </v-card>
-    </v-col>
-  </v-row>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
   </v-container>
 
   <!-- <v-overlay class="justify-center align-center h-screen w-screen" v-model="editOverlay">
@@ -298,8 +299,8 @@ onMounted(async () => {
       </v-card>
     </template>
   </v-dialog>
-  <v-fab size="72" color="var(--color-primary-container)" @click="enableAddOverlay()" :icon="mdiPlus" rounded="xl" app location="bottom end"
-    class="mr-6 mb-12"></v-fab>
+  <v-fab size="72" color="var(--color-primary-container)" @click="enableAddOverlay()" :icon="mdiPlus" rounded="xl" app
+    location="bottom end" class="mr-6 mb-12"></v-fab>
   <v-dialog max-width=500 v-model="addOverlay">
     <template v-slot:default="{ }">
       <v-card rounded="xl">

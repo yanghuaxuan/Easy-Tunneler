@@ -251,7 +251,7 @@ onMounted(async () => {
         </v-container>
       </v-card>
     </v-overlay> -->
-  <v-dialog v-model="editOverlay">
+  <v-dialog  max-width=500 v-model="editOverlay">
     <template v-slot:default="{ }">
       <v-card rounded="xl">
         <v-card-title>Edit {{ overlayFields.name }}</v-card-title>

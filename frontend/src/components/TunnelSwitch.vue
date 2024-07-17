@@ -1,9 +1,5 @@
 <script setup lang="ts">
 import { defineModel } from 'vue'
-const props = defineProps<{
-    color?: string
-}>()
-
 const checked = defineModel({ default: false })
 </script>
 

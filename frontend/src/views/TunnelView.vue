@@ -179,7 +179,7 @@ onMounted(async () => {
                   :fill="(t.status != undefined) ? ((t.status) ? 'green' : 'red') : 'black'" />
               </svg>
             </v-col>
-            <v-col>
+            <v-col cols="5">
               <h3>{{ t.tunnel.name }}</h3>
             </v-col>
             <!-- <v-col class="d-flex align-center justify-center">
@@ -199,7 +199,7 @@ onMounted(async () => {
                 <v-icon :icon="mdiDotsVertical"></v-icon>
               </v-btn>
             </v-col> -->
-            <v-col class="d-flex justify-end">
+            <v-col cols="5" class="d-flex justify-end">
               <!-- <v-switch @click.native.stop v-model="t.tunnel.enabled" color="blue"></v-switch> -->
               <TunnelSwitch v-model="t.tunnel.enabled" @click.stop="" />
             </v-col>

@@ -295,7 +295,7 @@ onMounted(async () => {
       </v-card>
     </template>
   </v-dialog>
-  <v-fab size="72" @click="enableAddOverlay()" :icon="mdiPlus" rounded="xl" app location="bottom end"
+  <v-fab size="72" color="var(--color-primary-container)" @click="enableAddOverlay()" :icon="mdiPlus" rounded="xl" app location="bottom end"
     class="mr-6 mb-12"></v-fab>
   <v-dialog max-width=500 v-model="addOverlay">
     <template v-slot:default="{ }">

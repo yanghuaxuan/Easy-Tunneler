@@ -25,10 +25,12 @@
 :root {
   --color-surface: #fef9eb;
   --color-surface-container: #f2eee0;
+  --color-surface-container-highest: #e7e2d5;
   --color-on-surface: #262419;
-  --color-primary: #262300;
+  --color-primary: #666014;
+  --color-on-primary: #ffffff;
   --color-primary-container: #f8e287;
-  --color-outline: #454336
+  --color-outline: #454336;
   /* --color-primary: #262300 */
   /* --color-background-mute: var(--vt-c-white-mute); */
 }

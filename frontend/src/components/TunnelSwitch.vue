@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { defineModel } from 'vue'
+const props = defineProps<{
+    color?: string
+}>()
 
 const checked = defineModel({ default: false })
 </script>
@@ -23,6 +26,7 @@ const checked = defineModel({ default: false })
       display: inline-block;
       width: 60px;
       height: 34px;
+      border-top: 500px;
     }
 
     /* The slider */
@@ -33,9 +37,12 @@ const checked = defineModel({ default: false })
       left: 0;
       right: 0;
       bottom: 0;
-      background-color: #ccc;
+      /* background-color: var(--color-outline); */
+      background-color: var(--color-surface-container-highest);
       transition: 0.4s;
       border-radius: 34px;
+      border: 1px solid;
+      border-color: var(--color-outline);
     }
 
     .slider:before {
@@ -45,17 +52,18 @@ const checked = defineModel({ default: false })
       width: 26px;
       left: 4px;
       bottom: 4px;
-      background-color: white;
+      background-color: var(--color-outline);
       transition: 0.4s;
       border-radius: 50%;
     }
 
     input:checked + .slider {
-      background-color: #2196F3;
+        background-color: var(--color-primary)
     }
 
     input:checked + .slider:before {
       transform: translateX(26px);
+      background-color: var(--color-on-primary);
     }
 
 </style>

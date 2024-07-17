@@ -11,9 +11,6 @@ import { RouterView } from 'vue-router'
 </template>
 
 <style scoped>
-/* body {
-  background-color: #FEF9EB
-} */
  .container {
   height: dvh;
  }

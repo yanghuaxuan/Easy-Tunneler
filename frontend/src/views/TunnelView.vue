@@ -159,6 +159,7 @@ onMounted(async () => {
 </script>
 
 <template>
+  <v-container class="tunnel-container">
   <v-row class="d-flex align-center">
     <v-col>
       <h1 class="text-h3">Tunnels</h1>
@@ -167,7 +168,7 @@ onMounted(async () => {
       <v-btn class="rounded-button" size="x-large" variant="text" :icon="mdiWrenchOutline" />
     </v-col>
   </v-row>
-  <v-row v-for="t in tunnels" :key="t.tunnel.id">
+    <v-row v-for="t in tunnels" :key="t.tunnel.id">
     <v-col>
       <v-card @click="enableEditOverlay(t.tunnel)" rounded="xl" class="pa-8 container" variant="flat">
         <v-row class="d-flex align-center">
@@ -208,6 +209,8 @@ onMounted(async () => {
       </v-card>
     </v-col>
   </v-row>
+  </v-container>
+
   <!-- <v-overlay class="justify-center align-center h-screen w-screen" v-model="editOverlay">
       <v-card class="pa-3 overlay" rounded="xl">
         <v-container>
@@ -347,6 +350,10 @@ onMounted(async () => {
 .v-card-title {
   font-size: 1.6em;
   font-weight: bold;
+}
+
+.tunnel-container {
+  max-width: 700px;
 }
 
 .dot {

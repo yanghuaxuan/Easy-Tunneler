@@ -137,7 +137,7 @@ func main() {
 			return
 		}
 
-		spawner.stop_tunnel(spawner.tunnels[req.Id])
+		spawner.stop_tunnel(req.Id)
 
 		delete(spawner.tunnels, req.Id)
 
@@ -181,40 +181,39 @@ func main() {
 		}
 		spawner.tunnels[t.Id] = t
 		if req.Enabled {
-            spawner.start_tunnel(t)
+            spawner.start_tunnel(t.Id)
 		}
 	})
 
 	router.PATCH(apiv1+"/update_tunnel", func(c *gin.Context) {
-		var req Tunnel
-		if err := c.BindJSON(&req); err != nil {
+		var newT Tunnel
+		if err := c.BindJSON(&newT); err != nil {
 			log.Println(err)
 			c.JSON(400, gin.H{
 				"status": "Invalid JSON!",
 			})
 			return
 		}
-		t, exists := spawner.tunnels[req.Id]
+		oldT, exists := spawner.tunnels[newT.Id]
 		if !exists {
 			c.JSON(400, gin.H{
 				"status": "Tunnel provided to update does not exist!",
 			})
 			return
 		}
-        /* TODO */
-        if req.Autoreboot != t.Autoreboot {
-            c.JSON(400, gin.H{
-                "status": "Not implemented (yet)",
-            })
-			return
+		if !newT.Enabled && oldT.Enabled {
+			spawner.stop_tunnel(oldT.Id)
+		}
+		if newT.Enabled && !oldT.Enabled {
+            spawner.start_tunnel(oldT.Id)
+		}
+		spawner.tunnels[newT.Id] = newT
+        if newT.Autoreboot != oldT.Autoreboot {
+			/* could be better, but works for now*/
+			spawner.stop_tunnel(oldT.Id)
+            spawner.start_tunnel(oldT.Id)
         }
-		if !req.Enabled && t.Enabled {
-			spawner.stop_tunnel(t)
-		}
-		if req.Enabled && !t.Enabled {
-            spawner.start_tunnel(t)
-		}
-		spawner.tunnels[req.Id] = req
+
 		c.JSON(200, gin.H{
 			"status": "Updated tunnel settings",
 		})

@@ -48,22 +48,31 @@ type Spawner struct {
 }
 
 /* stops a tunnel, if it exists in proc */
-func (s *Spawner) stop_tunnel(tun Tunnel) {
-	p, exists := s.procs[tun.Id]
+func (s *Spawner) stop_tunnel(tunId string) {
+	_, exists := s.tunnels[tunId]
+	if (!exists) {
+		return
+	}
+	p, exists := s.procs[tunId]
 	if !exists {
 		return
 	}
 	p.autoreboot_chan <- false
-	delete(s.procs, tun.Id)
+	delete(s.procs, tunId)
 	if p.cmd.Process != nil {
 		p.cmd.Process.Signal(syscall.SIGHUP)
 	}
 }
 
 /* use this to properly start a tunnel */
-func (s *Spawner) start_tunnel(tun Tunnel) {
+func (s *Spawner) start_tunnel(tunId string) {
+	tun, exists := s.tunnels[tunId]
+	if (!exists) {
+		return
+	}
+
     proc := kickstart(tun)
-    s.procs[tun.Id] = &proc
+    s.procs[tunId] = &proc
     go track_exit(&proc)
     if tun.Autoreboot {
         go auto_reboot_on_sig(&proc)
@@ -98,7 +107,7 @@ func init_spawner(tun []Tunnel) Spawner {
 			// if t.Autoreboot {
 			// 	go auto_reboot_on_sig(&proc)
 			// }
-            s.start_tunnel(t)
+            s.start_tunnel(t.Id)
 		}
 	}
 

@@ -13,15 +13,6 @@ import (
 	// "github.com/gorilla/websocket"
 )
 
-// type tunnel struct {
-// 	Name string
-
-// }
-
-// type get_tunnels_resp struct {
-// 	Tunnels []
-// }
-
 const tun_save_file = ".tunnels.json"
 
 type Tunnels_header struct {
@@ -41,21 +32,7 @@ func save_tunnels(tun []Tunnel) {
 }
 
 func main() {
-	// upgrader := websocket.Upgrader{
-	// 	ReadBufferSize:  1024,
-	// 	WriteBufferSize: 1024,
-	// 	// CheckOrigin: func (r *http.Request) bool {
-	// 	// 	fmt.Printf("[xdddd] Origin is %s\n", r.Header.Get("origin"))
-	// 	// 	fmt.Printf("[xdddd] Host %s\n", r.Header.Get("Host"))
-	// 	// 	return true
-	// 	// },
-	// }
 	router := gin.Default()
-	// hub := Hub{
-	// 	clients:    make(map[*Client]bool),
-	// 	register:   make(chan *Client),
-	// 	unregister: make(chan *Client),
-	// }
 
 	if os.Getenv("EASY_TUNNELER_PROD") == "1" {
 		// var serv embed.FS
@@ -157,7 +134,6 @@ func main() {
 			})
 			return
 		}
-		// close(proc.autoreboot_chan)
 
 		spawner.stop_tunnel(spawner.tunnels[req.Id])
 
@@ -236,21 +212,6 @@ func main() {
 			"status": "Updated tunnel settings",
 		})
 	})
-
-	// router.GET("/api/v1/get_tunnels")
-
-	// router.GET("/ws", func(ctx *gin.Context) {
-	// 	conn, err := upgrader.Upgrade(ctx.Writer, ctx.Request, nil)
-	// 	if err != nil {
-	// 		fmt.Println(err)
-	// 		return
-	// 	}
-	// 	client := Client{&hub, conn}
-	// 	hub.register <- &client
-	// 	go client.readPump()
-	// })
-
-	// go hub.handle_events()
 
 	fmt.Println()
 	fmt.Println("===================================================")

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { mdiWrenchOutline, mdiArrowLeft } from "@mdi/js"
+import { mdiArrowLeft } from "@mdi/js"
 import { RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
 

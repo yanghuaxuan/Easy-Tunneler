@@ -86,7 +86,7 @@ const editTunFromOverlay = async () => {
     method: "PATCH",
     body: JSON.stringify(t)
   })
-  fetchTunnels()
+  // fetchTunnels()
 }
 
 const addTunFromOverlay = async () => {
@@ -139,6 +139,20 @@ const fetchTunnels = async () => {
     })
 }
 
+const rules = {
+  required: (v: any) => !!v || 'Field is required',
+  integers: (v: any) => {
+    const n = Number(v)
+    if (!isNaN(n) && Number.isInteger(n)) {
+      return true
+    }
+    return 'Must be an integer'
+  }
+}
+
+const editForm = ref(true)
+const addForm = ref(false)
+
 onMounted(async () => {
   await fetchTunnels()
   setInterval(fetchTunnels, 10000)
@@ -176,45 +190,47 @@ onMounted(async () => {
       <v-card rounded="xl">
         <v-card-title>Edit {{ overlayFields.name }}</v-card-title>
         <v-card-text>
-          <v-row>
-            <v-col>
-              <v-text-field label="Name" v-model="overlayFields.name" variant="outlined"></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-text-field label="Host" v-model="overlayFields.host" variant="outlined"></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row dense>
-            <v-col>
-              <v-text-field label="Local Port" v-model="overlayFields.local_port" variant="outlined"></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field label="Remote Port" v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-text-field label="Connection Address" v-model="overlayFields.conn_addr"
-                variant="outlined"></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-switch label="Autoreboot" color="var(--color-primary-container)" v-model="overlayFields.autoreboot" />
-            </v-col>
-          </v-row>
-          <v-row class="d-flex justify-right">
-            <v-col cols="3">
-              <v-btn @click="deleteTunById(overlayFields.id); editOverlay = false" variant="plain"
-                :style="{ color: colors.red.base }">Delete</v-btn>
-            </v-col>
-            <v-spacer cols />
-            <v-col cols="3" class="d-flex justify-end">
-              <v-btn @click="editTunFromOverlay(); editOverlay = false" variant="plain">Save</v-btn>
-            </v-col>
-          </v-row>
+          <v-form v-model="editForm">
+            <v-row>
+              <v-col>
+                <v-text-field :rules="[rules.required]" label="Name" v-model="overlayFields.name" variant="outlined"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field :rules="[rules.required]" label="Host" v-model="overlayFields.host" variant="outlined"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row dense>
+              <v-col>
+                <v-text-field :rules="[rules.required, rules.integers]" label="Local Port" v-model="overlayFields.local_port" variant="outlined"></v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field :rules="[rules.required, rules.integers]" label="Remote Port" v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field :rules="[rules.required]" label="Connection Address" v-model="overlayFields.conn_addr"
+                  variant="outlined"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-switch label="Autoreboot" color="var(--color-primary-container)" v-model="overlayFields.autoreboot" />
+              </v-col>
+            </v-row>
+            <v-row class="d-flex justify-right">
+              <v-col cols="3">
+                <v-btn @click="deleteTunById(overlayFields.id); editOverlay = false" variant="plain"
+                  :style="{ color: colors.red.base }">Delete</v-btn>
+              </v-col>
+              <v-spacer cols />
+              <v-col cols="3" class="d-flex justify-end">
+                <v-btn :color="colors.blue.base" :disabled="!editForm" type="submit" @click="editTunFromOverlay(); editOverlay = false" variant="plain">Save</v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
         </v-card-text>
       </v-card>
     </template>
@@ -226,41 +242,43 @@ onMounted(async () => {
       <v-card rounded="xl">
         <v-card-title>Add tunnel</v-card-title>
         <v-card-text>
-          <v-row>
-            <v-col>
-              <v-text-field label="Name" v-model="overlayFields.name" variant="outlined"></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-text-field label="Host" v-model="overlayFields.host" variant="outlined"></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row dense>
-            <v-col>
-              <v-text-field label="Local Port" v-model="overlayFields.local_port" variant="outlined"></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field label="Remote Port" v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-text-field placeholder="john@example.com" label="Connection Address" v-model="overlayFields.conn_addr"
-                variant="outlined"></v-text-field>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col>
-              <v-switch label="Autoreboot" v-model="overlayFields.autoreboot"
-                color="var(--color-primary-container)">Autoreboot</v-switch>
-            </v-col>
-          </v-row>
-          <v-row>
-            <v-col class="d-flex justify-end">
-              <v-btn @click="addTunFromOverlay(); addOverlay = false" variant="plain">Save</v-btn>
-            </v-col>
-          </v-row>
+          <v-form v-model="addForm">
+            <v-row>
+              <v-col>
+                <v-text-field :rules="[rules.required]" label="Name" v-model="overlayFields.name" variant="outlined"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field :rules="[rules.required]" label="Host" v-model="overlayFields.host" variant="outlined"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row dense>
+              <v-col>
+                <v-text-field :rules="[rules.required, rules.integers]" label="Local Port" v-model="overlayFields.local_port" variant="outlined"></v-text-field>
+              </v-col>
+              <v-col>
+                <v-text-field :rules="[rules.required, rules.integers]" label="Remote Port" v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-text-field placeholder="john@example.com" label="Connection Address" v-model="overlayFields.conn_addr"
+                  variant="outlined"></v-text-field>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                <v-switch label="Autoreboot" v-model="overlayFields.autoreboot"
+                  color="var(--color-primary-container)">Autoreboot</v-switch>
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col class="d-flex justify-end">
+                <v-btn :color="colors.blue.base" :disabled="!addForm" @click="addTunFromOverlay(); addOverlay = false" variant="plain">Save</v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
         </v-card-text>
       </v-card>
     </template>

@@ -182,7 +182,6 @@ onMounted(async () => {
         </v-card>
       </v-col>
     </v-row>
-  </v-container>
 
   <v-dialog  max-width=500 v-model="editOverlay">
     <template v-slot:default="{ }">
@@ -282,6 +281,8 @@ onMounted(async () => {
       </v-card>
     </template>
   </v-dialog>
+  </v-container>
+
 </template>
 
 <style scoped>

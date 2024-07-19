@@ -9,6 +9,7 @@ fi
 
 # Build frontend
 pushd frontend
+npm i
 npx vite build --outDir ../backend/public
 popd
 

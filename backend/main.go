@@ -32,7 +32,8 @@ func save_tunnels(tun []Tunnel) {
 }
 
 func main() {
-	router := gin.Default()
+	router := gin.New()
+	router.Use(gin.Recovery())
 
 	if os.Getenv("EASY_TUNNELER_PROD") == "1" {
 		// var serv embed.FS

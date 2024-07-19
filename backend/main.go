@@ -161,8 +161,15 @@ func main() {
 			})
 			return
 		}
+		tid := genId(16)
+		for {
+			_, exists := spawner.tunnels[tid]
+			if (!exists) {
+				break
+			}
+		}
 		t := Tunnel{
-			genId(16),
+			tid,
 			req.Name,
 			req.Enabled,
 			req.Local_port,

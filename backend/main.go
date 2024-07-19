@@ -209,11 +209,9 @@ func main() {
 			return
         }
 		if !req.Enabled && t.Enabled {
-			/* stop tunnel */
 			spawner.stop_tunnel(t)
 		}
 		if req.Enabled && !t.Enabled {
-			/* enable tunnel */
             spawner.start_tunnel(t)
 		}
 		spawner.tunnels[req.Id] = req

@@ -88,10 +88,10 @@ func main() {
 
 	const apiv1 = "/api/v1"
 
-	router.GET("/", func(c *gin.Context) {
-		router.LoadHTMLFiles("index.html")
-		c.HTML(200, "index.html", gin.H{})
-	})
+	// router.GET("/", func(c *gin.Context) {
+	// 	router.LoadHTMLFiles("index.html")
+	// 	c.HTML(200, "index.html", gin.H{})
+	// })
 
 	router.GET(apiv1+"/tunnel_status", func(c *gin.Context) {
 		t := make([]interface{}, 0)

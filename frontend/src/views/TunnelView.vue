@@ -161,7 +161,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-container class="tunnel-container">
+  <v-container>
     <v-row v-for="t in tunnels" :key="t.tunnel.id">
       <v-col>
         <v-card @click="enableEditOverlay(t.tunnel)" rounded="xl" class="pa-8 container" variant="flat">
@@ -288,10 +288,6 @@ onMounted(async () => {
 .v-card-title {
   font-size: 1.6em;
   font-weight: bold;
-}
-
-.tunnel-container {
-  max-width: 700px;
 }
 
 .dot {

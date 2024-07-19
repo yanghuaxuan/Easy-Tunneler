@@ -36,6 +36,7 @@ func main() {
 
 	if os.Getenv("EASY_TUNNELER_PROD") == "1" {
 		// var serv embed.FS
+		gin.DefaultWriter = nil
 		router.Use(static.Serve("/", static.LocalFile("./public", false)))
 	} else {
 		/* relax CORS for development */

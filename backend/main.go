@@ -34,14 +34,15 @@ func save_tunnels(tun []Tunnel) {
 }
 
 func main() {
-	router := gin.New()
-	router.Use(gin.Recovery())
+	var router *gin.Engine
 
 	if os.Getenv("EASY_TUNNELER_PROD") == "1" {
 		// var serv embed.FS
-		gin.DefaultWriter = nil
+		router := gin.New()
+		router.Use(gin.Recovery())
 		router.Use(static.Serve("/", static.LocalFile("./public", false)))
 	} else {
+		router = gin.Default()
 		/* relax CORS for development */
 		router.Use(cors.Default())
 		log.Println("You are running Easy-Tunneler in non-production mode. The frontend side is not served by the in this mode.To switch to production mode, set EASY_TUNNELER_PROD=1 in your environment.")

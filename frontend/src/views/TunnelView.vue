@@ -72,7 +72,7 @@ const editOverlay = ref(false)
 const addOverlay = ref(false)
 
 const editTunFromOverlay = async () => {
-  let t: Tunnel = {
+  let new_tunnel: Tunnel = {
     id: overlayFields.id,
     name: overlayFields.name,
     local_port: parseInt(overlayFields.local_port),
@@ -82,11 +82,12 @@ const editTunFromOverlay = async () => {
     enabled: overlayFields.enabled,
     autoreboot: overlayFields.autoreboot
   }
-  await fetch(`${addr}/api/v1/update_tunnel`, {
-    method: "PATCH",
-    body: JSON.stringify(t)
-  })
-  // fetchTunnels()
+  for (let i = 0; i < tunnels.value.length; i++) {
+    const t = tunnels.value[i].tunnel
+    if (t.id === new_tunnel.id) {
+      tunnels.value[i].tunnel = new_tunnel
+    }
+  }
 }
 
 const addTunFromOverlay = async () => {
@@ -120,11 +121,9 @@ const fetchTunnels = async () => {
   await fetch(`${addr}/api/v1/tunnel_status`)
     .then(resp => {
       resp.json().then((j: Resp) => {
-        tunnels.value = []
         tunnels.value = j.tunnel_status.sort((a, b) => a.tunnel.name > b.tunnel.name ? 1 : -1)
         for (const t of tunnels.value) {
           watch(t, async (n) => {
-            console.log(JSON.stringify(n.tunnel))
             await fetch(`${addr}/api/v1/update_tunnel`, {
               method: "PATCH",
               body: JSON.stringify(n.tunnel)
@@ -227,7 +226,7 @@ onMounted(async () => {
               </v-col>
               <v-spacer cols />
               <v-col cols="3" class="d-flex justify-end">
-                <v-btn :color="colors.blue.base" :disabled="!editForm" type="submit" @click="editTunFromOverlay(); editOverlay = false" variant="plain">Save</v-btn>
+                <v-btn :color="colors.blue.base" :disabled="!editForm" @click="editTunFromOverlay(); editOverlay = false" variant="plain">Save</v-btn>
               </v-col>
             </v-row>
           </v-form>

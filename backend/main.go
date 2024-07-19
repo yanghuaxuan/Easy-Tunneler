@@ -13,6 +13,8 @@ import (
 	// "github.com/gorilla/websocket"
 )
 
+const AUTOSAVE_INTERVAL = time.Second * 60
+
 const tun_save_file = ".tunnels.json"
 
 type Tunnels_header struct {
@@ -67,7 +69,7 @@ func main() {
 
 	/* tunnel.json autosaver*/
 	stop_autosave := make(chan bool)
-	autosave_ticker := time.NewTicker(60 * time.Second)
+	autosave_ticker := time.NewTicker(AUTOSAVE_INTERVAL)
 	go func() {
 		for {
 			select {

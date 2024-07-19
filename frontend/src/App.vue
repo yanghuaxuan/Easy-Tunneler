@@ -14,10 +14,10 @@ const route = useRoute()
       <v-col>
         <h1 class="text-h3">Tunnels</h1>
       </v-col>
-      <v-col class="d-flex justify-end">
+      <!-- <v-col class="d-flex justify-end">
         <v-btn @click="$router.replace({ name: 'settings' })" class="rounded-button" size="x-large" variant="text"
           :icon="mdiWrenchOutline" />
-      </v-col>
+      </v-col> -->
       </v-row>
       <v-row v-else class="d-flex align-center">
         <v-col>

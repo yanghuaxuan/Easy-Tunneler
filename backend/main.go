@@ -14,8 +14,7 @@ import (
 )
 
 const AUTOSAVE_INTERVAL = time.Second * 60
-
-const tun_save_file = ".tunnels.json"
+const TUN_SAVE_FILE = ".tunnels.json"
 
 type Tunnels_header struct {
 	Tunnels []Tunnel `json:"tunnels"`
@@ -30,7 +29,7 @@ func save_tunnels(tun []Tunnel) {
 		log.Println("Cannot save to .tunnels.json!", err)
 		return
 	}
-	os.WriteFile(tun_save_file, dat, 0644)
+	os.WriteFile(TUN_SAVE_FILE, dat, 0644)
 }
 
 func main() {

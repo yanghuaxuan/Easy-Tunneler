@@ -205,16 +205,15 @@ func main() {
 		}
 		if !newT.Enabled && oldT.Enabled {
 			spawner.stop_tunnel(oldT.Id)
-		}
-		if newT.Enabled && !oldT.Enabled {
+			spawner.tunnels[newT.Id] = newT
+		} else if newT.Enabled && !oldT.Enabled {
+			spawner.tunnels[newT.Id] = newT
             spawner.start_tunnel(oldT.Id)
-		}
-		spawner.tunnels[newT.Id] = newT
-        if newT.Autoreboot != oldT.Autoreboot {
-			/* could be better, but works for now*/
+		} else {
 			spawner.stop_tunnel(oldT.Id)
+			spawner.tunnels[newT.Id] = newT
             spawner.start_tunnel(oldT.Id)
-        }
+		}
 
 		c.JSON(200, gin.H{
 			"status": "Updated tunnel settings",

@@ -37,7 +37,7 @@ func main() {
 
 	if os.Getenv("EASY_TUNNELER_PROD") == "1" {
 		// var serv embed.FS
-		router := gin.New()
+		router = gin.New()
 		router.Use(gin.Recovery())
 		router.Use(static.Serve("/", static.LocalFile("./public", false)))
 	} else {

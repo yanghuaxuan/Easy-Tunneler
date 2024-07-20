@@ -3,7 +3,7 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"log"
+	"log/slog"
 	"os"
 	"time"
 
@@ -26,7 +26,7 @@ func save_tunnels(tun []Tunnel) {
 	}
 	dat, err := json.Marshal(i)
 	if err != nil {
-		log.Println("Cannot save to .tunnels.json!", err)
+		slog.Error("Cannot save to .tunnels.json!", slog.Any("error", err))
 		return
 	}
 	os.WriteFile(TUN_SAVE_FILE, dat, 0644)
@@ -43,25 +43,26 @@ func main() {
 	} else {
 		router = gin.Default()
 		/* relax CORS for development */
+		slog.SetLogLoggerLevel(slog.LevelDebug)
 		router.Use(cors.Default())
-		log.Println("You are running Easy-Tunneler in non-production mode. The frontend side is not served by the in this mode.To switch to production mode, set EASY_TUNNELER_PROD=1 in your environment.")
+		slog.Info("You are running Easy-Tunneler in non-production mode. The frontend side is not served by the in this mode.To switch to production mode, set EASY_TUNNELER_PROD=1 in your environment.")
 	}
 
 	var tunnels []Tunnel
 
 	dat, err := os.ReadFile(".tunnels.json")
 	if err == nil {
-		log.Println("./tunnels.json found! Loading saved configuration")
+		slog.Info("./tunnels.json found! Loading saved configuration")
 		var f Tunnels_header
 		err = json.Unmarshal(dat, &f)
 		// fmt.Println("=====", f.Tunnels)
 		if err != nil {
-			log.Println("Error occured while processing tunnels.json: ", err)
+			slog.Error("Error occured while processing tunnels.json: ", slog.Any("error", err))
 			return
 		}
 		tunnels = f.Tunnels
 	} else {
-		log.Println("tunnels.json not found.")
+		slog.Warn("tunnels.json not found.")
 		tunnels = make([]Tunnel, 0)
 	}
 
@@ -76,7 +77,7 @@ func main() {
 			case <-stop_autosave:
 				return
 			case <-autosave_ticker.C:
-				log.Println("Autosaving!")
+				slog.Debug("Autosaving!")
 				a := make([]Tunnel, 0)
 				for i := range spawner.tunnels {
 					a = append(a, spawner.tunnels[i])
@@ -190,7 +191,7 @@ func main() {
 	router.PATCH(apiv1+"/update_tunnel", func(c *gin.Context) {
 		var newT Tunnel
 		if err := c.BindJSON(&newT); err != nil {
-			log.Println(err)
+			// slog.Warn(err)
 			c.JSON(400, gin.H{
 				"status": "Invalid JSON!",
 			})

@@ -3,7 +3,7 @@ package main
 import (
 	// "bytes"
 	"fmt"
-	"log"
+	"log/slog"
 	"os"
 	"os/exec"
 	"syscall"
@@ -120,7 +120,7 @@ func track_exit(tun *Tunnel_Process) {
 	}
 
 	tun.cmd.Wait()
-	log.Println("SSH session exited!")
+	slog.Debug("SSH session exited!")
 	tun.status = Disconnected
 	tun.autoreboot_chan <- true
 }
@@ -133,17 +133,17 @@ func auto_reboot_on_sig(proc *Tunnel_Process) {
 
 	s := <-proc.autoreboot_chan
 	if !s {
-		log.Println("Exiting autoreboot!")
+		slog.Debug("Exiting autoreboot!")
 		return
 	}
 
-	log.Println("Autorebooting!")
+	slog.Debug("Autorebooting!")
 
 	tun := proc.tunnel
 	cmd := exec.Command("ssh", "-o", "ExitOnForwardFailure=yes", "-N", "-L", fmt.Sprintf("%d:%s:%d", tun.Local_port, tun.Host, tun.Remote_port), tun.Conn_addr)
 	cmd.Stderr = os.Stderr
 	proc.cmd = cmd
-	log.Println(cmd)
+	slog.Debug(cmd.String())
 	// var stderrBuffer bytes.Buffer
 	// cmd.Stderr = &stderrBuffer
 	err := cmd.Start()
@@ -163,7 +163,7 @@ func kickstart(tun Tunnel) Tunnel_Process {
 	cmd := exec.Command("/usr/bin/ssh", "-o", "ExitOnForwardFailure yes", "-N", "-L", fmt.Sprintf("%d:%s:%d", tun.Local_port, tun.Host, tun.Remote_port), tun.Conn_addr)
 	cmd.Stderr = os.Stderr
 	status := Online
-	log.Println(cmd)
+	slog.Debug(cmd.String())
 	// var stderrBuffer bytes.Buffer
 	// cmd.Stderr = &stderrBuffer
 	err := cmd.Start()

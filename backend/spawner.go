@@ -80,9 +80,8 @@ func (s *Spawner) start_tunnel(tunId string) {
 }
 
 /* very basic id builder */
-const alphanumeric = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-
 func genId(n int) string {
+	const alphanumeric = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	b := make([]byte, n)
 	for i := range n {
 		b[i] = alphanumeric[rand.Intn(len(alphanumeric))]

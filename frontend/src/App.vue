@@ -40,7 +40,7 @@ const route = useRoute()
 
 <style>
 .header {
-  font-size: 55px;
+  font-size: 3rem;
 }
 
 .slider-enter-active,

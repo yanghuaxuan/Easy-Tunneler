@@ -60,7 +60,5 @@
 <style>
 .settings-card {
   width: 100%;
-  background-color: var(--color-surface-container);
-  color: var(--color-on-surface);
 }
 </style>

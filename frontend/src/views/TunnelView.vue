@@ -344,9 +344,4 @@ onMounted(async () => {
   background-color: var(--color-surface-container);
   color: var(--color-on-surface);
 }
-
-.container {
-  background-color: var(--color-surface-container);
-  color: var(--color-on-surface);
-}
 </style>

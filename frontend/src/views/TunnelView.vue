@@ -5,6 +5,7 @@ import { mdiPlus, mdiClose } from "@mdi/js"
 import { store } from '@/store'
 import colors from 'vuetify/util/colors'
 import TunnelSwitch from '@/components/TunnelSwitch.vue'
+import rules from '@/rules'
 
 
 interface Resp {
@@ -137,17 +138,6 @@ const fetchTunnels = async () => {
     .catch(e => {
       console.error("Cannot fetch tunnel status: " + e)
     })
-}
-
-const rules = {
-  required: (v: any) => !!v || 'Field is required',
-  integers: (v: any) => {
-    const n = Number(v)
-    if (!isNaN(n) && Number.isInteger(n)) {
-      return true
-    }
-    return 'Must be an integer'
-  }
 }
 
 const editForm = ref(true)

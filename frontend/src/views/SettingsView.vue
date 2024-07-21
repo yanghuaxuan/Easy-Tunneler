@@ -1,6 +1,7 @@
 <script setup>
   import { reactive, watch, ref } from 'vue'
   import { store } from '@/store'
+  import rules from '@/rules'
 
   const { autorefresh_interval: init_autorefresh_interval } = store
 
@@ -8,6 +9,7 @@
     autorefresh_interval: init_autorefresh_interval
   })
 
+  const formIsValid = ref(false)
   const unsaved = ref(false)
 
   const saveSettings = () => {
@@ -29,19 +31,21 @@
     </v-row>
     <v-row>
       <v-col>
-        <v-card rounded="xl" class="settings-card pa-3 container" variant="flat">
-          <v-card-title>Auto-refresh interval</v-card-title>
-          <v-card-text>
-            <v-row class="d-flex align-center">
-              <v-col cols="5">
-                <v-text-field v-model="settings.autorefresh_interval" />
-              </v-col>
-              <v-col>
-                <p>Seconds</p>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
+        <v-form v-model="formIsValid">
+          <v-card rounded="xl" class="settings-card pa-3 container" variant="flat">
+            <v-card-title>Auto-refresh interval</v-card-title>
+            <v-card-text>
+              <v-row class="d-flex align-center" >
+                <v-col cols="5">
+                  <v-text-field :rules="[rules.required, rules.integers]" v-model="settings.autorefresh_interval" />
+                </v-col>
+                <v-col>
+                  <p>Seconds</p>
+                </v-col>
+              </v-row>
+            </v-card-text>
+          </v-card>
+        </v-form>
       </v-col>
     </v-row>
     <v-row>
@@ -49,7 +53,7 @@
     <v-snackbar timeout="-1" v-model="unsaved">
       You have unsaved changes!
       <template v-slot:actions>
-        <v-btn @click="saveSettings(); unsaved = false" variant="text">
+        <v-btn @click="saveSettings(); unsaved = false" :disabled="!formIsValid" variant="text">
           Save
         </v-btn>
       </template>

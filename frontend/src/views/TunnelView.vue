@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { onMounted, reactive, watch } from "vue";
+import { onMounted, reactive, watch, computed } from "vue";
 import { ref } from "vue";
 import { mdiPlus, mdiClose } from "@mdi/js"
+import { store } from '@/store'
 import colors from 'vuetify/util/colors'
 import TunnelSwitch from '@/components/TunnelSwitch.vue'
 
@@ -152,16 +153,39 @@ const rules = {
 const editForm = ref(true)
 const addForm = ref(false)
 
-onMounted(async () => {
-  await fetchTunnels()
-  setInterval(fetchTunnels, 10000)
+
+const refreshInteval = store.autorefresh_interval
+const autoRefreshSeconds = ref(refreshInteval)
+
+const autorefresh = async () => {
+  if (autoRefreshSeconds.value == 0) {
+    await fetchTunnels()
+    autoRefreshSeconds.value = refreshInteval 
+  } else {
+    autoRefreshSeconds.value -= 1;
+  }
 }
+
+const msgAutoRefresh = computed(() => {
+  if (autoRefreshSeconds.value == 0) {
+    return "Refreshing!"
+  }
+  return `Refreshing in ${autoRefreshSeconds.value} seconds`
+})
+
+onMounted(async () => {
+    await fetchTunnels()
+    setInterval(autorefresh, 1000)
+  }
 )
 
 </script>
 
 <template>
   <v-container>
+    <v-row>
+      <p>{{ msgAutoRefresh }}</p>
+    </v-row>
     <v-row v-for="t in tunnels" :key="t.tunnel.id">
       <v-col>
         <v-card @click="enableEditOverlay(t.tunnel)" rounded="xl" class="pa-8 container" variant="flat">

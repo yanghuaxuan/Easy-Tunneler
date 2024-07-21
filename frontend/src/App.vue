@@ -1,10 +1,16 @@
 <script setup lang="ts">
+import { watch } from 'vue'
 import { mdiArrowLeft, mdiWrenchOutline } from "@mdi/js"
 import { RouterView } from 'vue-router'
 import { useRoute } from 'vue-router'
+import { store } from '@/store'
 
 
 const route = useRoute()
+
+watch(store, (newStore) => {
+  localStorage.setItem("autorefresh_interval", newStore.autorefresh_interval.toString())
+})
 </script>
 
 <template>

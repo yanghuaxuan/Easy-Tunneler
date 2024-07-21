@@ -3,9 +3,9 @@
 #app {
   max-width: 600px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 1rem;
   font-weight: normal;
-  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {

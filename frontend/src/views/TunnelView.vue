@@ -182,123 +182,122 @@ onMounted(async () => {
         </v-card>
       </v-col>
     </v-row>
-
-  <v-dialog  max-width=500 v-model="editOverlay">
-    <template v-slot:default="{ }">
-      <v-card rounded="xl">
-        <v-card-title>
-          <v-row class="d-flex align-center">
-            <v-col>
-              <p>Edit {{ overlayFields.name }}</p>
-            </v-col>
-            <v-col class="d-flex justify-end">
-              <v-btn @click="editOverlay = false" variant="text" :icon="mdiClose"></v-btn>
-            </v-col>
-          </v-row>
-        </v-card-title>
-        <v-card-text>
-          <v-form v-model="editForm">
-            <v-row>
+    <v-dialog  max-width=500 v-model="editOverlay">
+      <template v-slot:default="{ }">
+        <v-card rounded="xl">
+          <v-card-title>
+            <v-row class="d-flex align-center">
               <v-col>
-                <v-text-field :rules="[rules.required]" label="Name" v-model="overlayFields.name" variant="outlined"></v-text-field>
+                <p>Edit {{ overlayFields.name }}</p>
               </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field :rules="[rules.required]" label="Host" v-model="overlayFields.host" variant="outlined"></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row dense>
-              <v-col>
-                <v-text-field :rules="[rules.required, rules.integers]" label="Local Port" v-model="overlayFields.local_port" variant="outlined"></v-text-field>
-              </v-col>
-              <v-col>
-                <v-text-field :rules="[rules.required, rules.integers]" label="Remote Port" v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field :rules="[rules.required]" label="Connection Address" v-model="overlayFields.conn_addr"
-                  variant="outlined"></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-switch label="Autoreboot" color="var(--color-primary-container)" v-model="overlayFields.autoreboot" />
-              </v-col>
-            </v-row>
-            <v-row class="d-flex justify-right">
-              <v-col cols="3">
-                <v-btn @click="deleteTunById(overlayFields.id); editOverlay = false" variant="plain"
-                  :style="{ color: colors.red.base }">Delete</v-btn>
-              </v-col>
-              <v-spacer cols />
-              <v-col cols="3" class="d-flex justify-end">
-                <v-btn :color="colors.blue.base" :disabled="!editForm" @click="editTunFromOverlay(); editOverlay = false" variant="plain">Save</v-btn>
-              </v-col>
-            </v-row>
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </template>
-  </v-dialog>
-  <v-fab size="72" color="var(--color-primary-container)" @click="enableAddOverlay()" :icon="mdiPlus" rounded="xl" app
-    location="bottom end" class="mr-6 mb-12"></v-fab>
-  <v-dialog max-width=500 v-model="addOverlay">
-    <template v-slot:default="{ }">
-      <v-card rounded="xl">
-        <v-card-title>
-          <v-row class="d-flex align-center">
-            <v-col>
-              <p>Add tunnel</p>
-            </v-col>
-            <v-col class="d-flex justify-end">
-              <v-btn @click="addOverlay = false" variant="text" :icon="mdiClose"></v-btn>
-            </v-col>
-          </v-row>
-        </v-card-title>
-        <v-card-text>
-          <v-form v-model="addForm">
-            <v-row>
-              <v-col>
-                <v-text-field :rules="[rules.required]" label="Name" v-model="overlayFields.name" variant="outlined"></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field :rules="[rules.required]" label="Host" v-model="overlayFields.host" variant="outlined"></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row dense>
-              <v-col>
-                <v-text-field :rules="[rules.required, rules.integers]" label="Local Port" v-model="overlayFields.local_port" variant="outlined"></v-text-field>
-              </v-col>
-              <v-col>
-                <v-text-field :rules="[rules.required, rules.integers]" label="Remote Port" v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-text-field placeholder="john@example.com" label="Connection Address" v-model="overlayFields.conn_addr"
-                  variant="outlined"></v-text-field>
-              </v-col>
-            </v-row>
-            <v-row>
-              <v-col>
-                <v-switch label="Autoreboot" v-model="overlayFields.autoreboot"
-                  color="var(--color-primary-container)">Autoreboot</v-switch>
-              </v-col>
-            </v-row>
-            <v-row>
               <v-col class="d-flex justify-end">
-                <v-btn :color="colors.blue.base" :disabled="!addForm" @click="addTunFromOverlay(); addOverlay = false" variant="plain">Save</v-btn>
+                <v-btn @click="editOverlay = false" variant="text" :icon="mdiClose"></v-btn>
               </v-col>
             </v-row>
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </template>
-  </v-dialog>
+          </v-card-title>
+          <v-card-text>
+            <v-form v-model="editForm">
+              <v-row>
+                <v-col>
+                  <v-text-field :rules="[rules.required]" label="Name" v-model="overlayFields.name" variant="outlined"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-text-field :rules="[rules.required]" label="Host" v-model="overlayFields.host" variant="outlined"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col>
+                  <v-text-field :rules="[rules.required, rules.integers]" label="Local Port" v-model="overlayFields.local_port" variant="outlined"></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field :rules="[rules.required, rules.integers]" label="Remote Port" v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-text-field :rules="[rules.required]" label="Connection Address" v-model="overlayFields.conn_addr"
+                    variant="outlined"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-switch label="Autoreboot" color="var(--color-primary-container)" v-model="overlayFields.autoreboot" />
+                </v-col>
+              </v-row>
+              <v-row class="d-flex justify-right">
+                <v-col cols="3">
+                  <v-btn @click="deleteTunById(overlayFields.id); editOverlay = false" variant="plain"
+                    :style="{ color: colors.red.base }">Delete</v-btn>
+                </v-col>
+                <v-spacer cols />
+                <v-col cols="3" class="d-flex justify-end">
+                  <v-btn :color="colors.blue.base" :disabled="!editForm" @click="editTunFromOverlay(); editOverlay = false" variant="plain">Save</v-btn>
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </template>
+    </v-dialog>
+    <v-fab size="72" color="var(--color-primary-container)" @click="enableAddOverlay()" :icon="mdiPlus" rounded="xl" app
+      location="bottom end" class="mr-6 mb-12"></v-fab>
+    <v-dialog max-width=500 v-model="addOverlay">
+      <template v-slot:default="{ }">
+        <v-card rounded="xl">
+          <v-card-title>
+            <v-row class="d-flex align-center">
+              <v-col>
+                <p>Add tunnel</p>
+              </v-col>
+              <v-col class="d-flex justify-end">
+                <v-btn @click="addOverlay = false" variant="text" :icon="mdiClose"></v-btn>
+              </v-col>
+            </v-row>
+          </v-card-title>
+          <v-card-text>
+            <v-form v-model="addForm">
+              <v-row>
+                <v-col>
+                  <v-text-field :rules="[rules.required]" label="Name" v-model="overlayFields.name" variant="outlined"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-text-field :rules="[rules.required]" label="Host" v-model="overlayFields.host" variant="outlined"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row dense>
+                <v-col>
+                  <v-text-field :rules="[rules.required, rules.integers]" label="Local Port" v-model="overlayFields.local_port" variant="outlined"></v-text-field>
+                </v-col>
+                <v-col>
+                  <v-text-field :rules="[rules.required, rules.integers]" label="Remote Port" v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-text-field placeholder="john@example.com" label="Connection Address" v-model="overlayFields.conn_addr"
+                    variant="outlined"></v-text-field>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-switch label="Autoreboot" v-model="overlayFields.autoreboot"
+                    color="var(--color-primary-container)">Autoreboot</v-switch>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col class="d-flex justify-end">
+                  <v-btn :color="colors.blue.base" :disabled="!addForm" @click="addTunFromOverlay(); addOverlay = false" variant="plain">Save</v-btn>
+                </v-col>
+              </v-row>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </template>
+    </v-dialog>
   </v-container>
 
 </template>

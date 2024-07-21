@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, watch } from "vue";
 import { ref } from "vue";
-import { mdiPlus } from "@mdi/js"
+import { mdiPlus, mdiClose } from "@mdi/js"
 import colors from 'vuetify/util/colors'
 import TunnelSwitch from '@/components/TunnelSwitch.vue'
 
@@ -186,7 +186,16 @@ onMounted(async () => {
   <v-dialog  max-width=500 v-model="editOverlay">
     <template v-slot:default="{ }">
       <v-card rounded="xl">
-        <v-card-title>Edit {{ overlayFields.name }}</v-card-title>
+        <v-card-title>
+          <v-row class="d-flex align-center">
+            <v-col>
+              <p>Edit {{ overlayFields.name }}</p>
+            </v-col>
+            <v-col class="d-flex justify-end">
+              <v-btn @click="editOverlay = false" variant="text" :icon="mdiClose"></v-btn>
+            </v-col>
+          </v-row>
+        </v-card-title>
         <v-card-text>
           <v-form v-model="editForm">
             <v-row>
@@ -238,7 +247,16 @@ onMounted(async () => {
   <v-dialog max-width=500 v-model="addOverlay">
     <template v-slot:default="{ }">
       <v-card rounded="xl">
-        <v-card-title>Add tunnel</v-card-title>
+        <v-card-title>
+          <v-row class="d-flex align-center">
+            <v-col>
+              <p>Add tunnel</p>
+            </v-col>
+            <v-col class="d-flex justify-end">
+              <v-btn @click="addOverlay = false" variant="text" :icon="mdiClose"></v-btn>
+            </v-col>
+          </v-row>
+        </v-card-title>
         <v-card-text>
           <v-form v-model="addForm">
             <v-row>

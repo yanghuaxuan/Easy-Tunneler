@@ -129,10 +129,17 @@ func log_tunnel(tun Tunnel, rc io.ReadCloser) {
 	buf := bufio.NewReader(rc)
 	for {
 		line, err := buf.ReadString('\n')
-		if err == io.EOF {
-			break
+		if err != nil{
+			if (err == io.EOF) {
+				break
+			}
+			slog.Warn(fmt.Sprintf("Error while reading stderr from %s: %s", tun.Name, err))
+		} else {
+			if (len(line) == 0) {
+				continue
+			}
+			slog.Warn(fmt.Sprintf("Message from %s ->\n%s", tun.Name, line))
 		}
-		slog.Warn(fmt.Sprintf("Message from %s ->\n%s", tun.Name, line))
 	}
 }
 

@@ -7,7 +7,6 @@ import (
 	"io"
 	"log/slog"
 	"os/exec"
-	"syscall"
 	"time"
 
 	"math/rand"
@@ -50,7 +49,7 @@ type Spawner struct {
 
 /* stops a tunnel, if it exists in proc */
 func (s *Spawner) stop_tunnel(tunId string) {
-	_, exists := s.tunnels[tunId]
+	tun, exists := s.tunnels[tunId]
 	if (!exists) {
 		return
 	}
@@ -61,7 +60,10 @@ func (s *Spawner) stop_tunnel(tunId string) {
 	p.autoreboot_chan <- false
 	delete(s.procs, tunId)
 	if p.cmd.Process != nil {
-		p.cmd.Process.Signal(syscall.SIGHUP)
+		err := p.cmd.Process.Kill()
+		if (err != nil) {
+			slog.Warn(fmt.Sprintf("Cannot kill %s's SSH session: %s", tun.Name, err))
+		}
 	}
 }
 

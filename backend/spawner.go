@@ -2,6 +2,7 @@ package main
 
 import (
 	// "bytes"
+	"bufio"
 	"fmt"
 	"io"
 	"log/slog"
@@ -125,16 +126,13 @@ func track_exit(tun *Tunnel_Process) {
 }
 
 func log_tunnel(tun Tunnel, rc io.ReadCloser) {
-	b := make([]byte, 1024)
+	buf := bufio.NewReader(rc)
 	for {
-		n, err := rc.Read(b);
-		if (n == 0) {
-			continue
-		}
-		slog.Warn(fmt.Sprintf("Message from %s ->\n%s", tun.Name, b[:n]))
+		line, err := buf.ReadString('\n')
 		if err == io.EOF {
 			break
 		}
+		slog.Warn(fmt.Sprintf("Message from %s ->\n%s", tun.Name, line))
 	}
 }
 

@@ -11,6 +11,7 @@ Inspired by [wg-easy](https://github.com/wg-easy/wg-easy), Easy-Tunneler makes a
 # Features
 - 🤖 Create and automatically manage SSH tunnels, automatically rebooting tunnels on timeouts
 - 🍃 Clean, responsive, and performant UI created in Vue.js
+- 🔒 Based on OpenSSH, the most widely used and audited SSH implementation in the world. Also does not require root privileges to function
 - ⚡ Designed to be ran daily on phones; uses little to no resources!
 
 # Building from Source
@@ -21,7 +22,8 @@ Inspired by [wg-easy](https://github.com/wg-easy/wg-easy), Easy-Tunneler makes a
 `./build.sh`
 
 # Usage
-You must have OpenSSH installed and added as pat, and also have key-based authentication setup for the server you're connecting to. Password-based authentication is not supported for security purposes.
+You must have OpenSSH installed, and also have key-based authentication setup for the server you're connecting to. Password-based authentication is not supported for security purposes.
+- See this [guide](https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server) on how to setup key based authentication
 
 # Credits
 - [The OpenBSD Pufferfish](https://www.openbsd.org/)

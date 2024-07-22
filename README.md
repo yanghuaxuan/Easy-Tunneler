@@ -1,7 +1,7 @@
 <div align="center">
   <h1>🐡 Easy Tunneler 🐡</h1>
   <p><i>The dead simple solution for securely accessing your stuff from anywhere in the world</i></p>
-  <img width="304" alt="image" src="https://github.com/user-attachments/assets/07ed9bdf-d727-442a-8a2e-78894fbcc315">
+  <img width="304" alt="image" src="https://github.com/user-attachments/assets/58c6adf9-000c-4e31-86fe-fda2369ae40c">
 </div>
 
 ---

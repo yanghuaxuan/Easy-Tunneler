@@ -62,7 +62,9 @@ func (s *Spawner) stop_tunnel(tunId string) {
 	if p.cmd.Process != nil {
 		err := p.cmd.Process.Kill()
 		if (err != nil) {
-			slog.Warn(fmt.Sprintf("Cannot kill %s's SSH session: %s", tun.Name, err))
+			slog.Error(fmt.Sprintf("Cannot kill %s's SSH session: %s", tun.Name, err))
+		} else {
+			p.cmd.Wait()
 		}
 	}
 }

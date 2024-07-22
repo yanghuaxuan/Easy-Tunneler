@@ -199,6 +199,7 @@ func kickstart(tun Tunnel) Tunnel_Process {
 	err = cmd.Start()
 	if err != nil {
 		status = Disconnected
+		slog.Warn(fmt.Sprintf("Cannot start SSH session: %s", err))
 	}
 	/* 2 buffered channel is necessary to avoid deadblocks (i.e. removing a tunnel with no autoreboot) */
 	return Tunnel_Process{cmd, tun, status, make(chan bool, 2)}

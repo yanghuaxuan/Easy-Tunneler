@@ -6,7 +6,7 @@
 
 ---
 
-Inspired by [wg-easy](https://github.com/wg-easy/wg-easy), Easy-Tunneler makes accessing local applications in another computer stupidly simple from *any* device. Specifically, it is a frontend for OpenSSH, utilizing its amazing local port forwarding feature to forward . It intends to be a simpler alternative to accessing local apps via VPNs.
+Inspired by [wg-easy](https://github.com/wg-easy/wg-easy), Easy-Tunneler makes accessing local applications in another computer stupidly simple from *any* device. Specifically, it is a frontend for OpenSSH, utilizing its amazing local port forwarding feature to access locally hosted applications like Nextcloud and Immich remotely. It intends to be a simpler alternative to accessing local apps via VPNs.
 
 # Features
 - 🤖 Create and automatically manage SSH tunnels, automatically rebooting tunnels on timeouts

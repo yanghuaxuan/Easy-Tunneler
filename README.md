@@ -21,6 +21,10 @@ Inspired by [wg-easy](https://github.com/wg-easy/wg-easy), Easy-Tunneler makes a
 3. Run the build script
 `./build.sh`
 
+# Running
+1. Once built, cd into `build`
+2. Run `run.sh` script provided
+
 # Usage
 You must have OpenSSH installed, and also have key-based authentication setup for the server you're connecting to. Password-based authentication is not supported for security purposes.
 - See this [guide](https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server) on how to setup key based authentication

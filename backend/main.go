@@ -33,15 +33,12 @@ func save_tunnels(tun []Tunnel) {
 }
 
 func main() {
-	var router *gin.Engine
+	router := gin.Default()
 
 	if os.Getenv("EASY_TUNNELER_PROD") == "1" {
 		// var serv embed.FS
-		router = gin.New()
-		router.Use(gin.Recovery())
 		router.Use(static.Serve("/", static.LocalFile("./public", false)))
 	} else {
-		router = gin.Default()
 		/* relax CORS for development */
 		slog.SetLogLoggerLevel(slog.LevelDebug)
 		router.Use(cors.Default())
@@ -227,5 +224,8 @@ func main() {
 	fmt.Println("===================================================")
 	fmt.Println()
 
-	router.Run("localhost:4140")
+	err = router.Run("localhost:4140")
+	if (err != nil) {
+		slog.Error(fmt.Sprintf("%s", err))
+	}
 }

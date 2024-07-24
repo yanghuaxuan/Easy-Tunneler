@@ -292,7 +292,7 @@ onMounted(async () => {
               </v-row>
               <v-row>
                 <v-col>
-                  <v-text-field placeholder="john@example.com" label="Connection Address" v-model="overlayFields.conn_addr"
+                  <v-text-field :rules="[rules.required]" placeholder="john@example.com" label="Connection Address" v-model="overlayFields.conn_addr"
                     variant="outlined"></v-text-field>
                 </v-col>
               </v-row>

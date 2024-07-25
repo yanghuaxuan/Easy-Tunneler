@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import { watch } from 'vue'
-import { mdiArrowLeft, mdiWrenchOutline } from "@mdi/js"
 import { RouterView } from 'vue-router'
-import { useRoute } from 'vue-router'
 import { store } from '@/store'
 
-
-const route = useRoute()
 
 watch(store, (newStore) => {
   localStorage.setItem("autorefresh_interval", newStore.autorefresh_interval.toString())
@@ -16,24 +12,6 @@ watch(store, (newStore) => {
 <template>
   <v-layout>
     <v-main>
-      <v-row class="d-flex align-center" v-if="route.name === 'tunnels'">
-        <v-col>
-          <h1 class="header">Tunnels</h1>
-        </v-col>
-        <v-col class="d-flex justify-end">
-          <v-btn @click="$router.replace({ name: 'settings' })" class="rounded-button" size="x-large" variant="text"
-            :icon="mdiWrenchOutline" />
-        </v-col>
-      </v-row>
-      <v-row v-else class="d-flex align-center">
-        <v-col>
-          <v-btn @click="$router.replace({ name: 'tunnels' })" class="rounded-button" size="x-large" variant="text"
-            :icon="mdiArrowLeft" />
-        </v-col>
-        <v-col class="d-flex justify-end">
-          <h1 class="header">Settings</h1>
-        </v-col>
-      </v-row>
       <!-- <RouterView v-slot="{ Component }">
         <Transition name="slider" mode="out-in">
           <Component :is="Component" :key="$route.path" />

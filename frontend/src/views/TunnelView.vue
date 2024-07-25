@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { onMounted, reactive, watch, computed } from "vue";
 import { ref } from "vue";
-import { mdiPlus, mdiClose } from "@mdi/js"
+import { mdiPlus, mdiClose, mdiWrenchOutline } from "@mdi/js"
 import { store } from '@/store'
 import colors from 'vuetify/util/colors'
 import TunnelSwitch from '@/components/TunnelSwitch.vue'
@@ -173,6 +173,15 @@ onMounted(async () => {
 
 <template>
   <v-container>
+    <v-row class="d-flex align-center">
+        <v-col>
+          <h1 class="header">Tunnels</h1>
+        </v-col>
+        <v-col class="d-flex justify-end">
+          <v-btn @click="$router.replace({ name: 'settings' })" class="rounded-button" size="x-large" variant="text"
+            :icon="mdiWrenchOutline" />
+        </v-col>
+      </v-row>
     <v-row>
       <p>{{ msgAutoRefresh }}</p>
     </v-row>

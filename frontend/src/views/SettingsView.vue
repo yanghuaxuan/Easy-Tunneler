@@ -2,6 +2,8 @@
   import { reactive, watch, ref } from 'vue'
   import { store } from '@/store'
   import rules from '@/rules'
+  import { mdiArrowLeft } from "@mdi/js"
+
 
   const { autorefresh_interval: init_autorefresh_interval } = store
 
@@ -26,6 +28,15 @@
 
 <template>
   <v-container>
+    <v-row class="d-flex align-center">
+        <v-col>
+          <v-btn @click="$router.replace({ name: 'tunnels' })" class="rounded-button" size="x-large" variant="text"
+            :icon="mdiArrowLeft" />
+        </v-col>
+        <v-col class="d-flex justify-end">
+          <h1 class="header">Settings</h1>
+        </v-col>
+      </v-row>
     <v-row>
       <p>Client settings are saved locally in browser!</p>
     </v-row>

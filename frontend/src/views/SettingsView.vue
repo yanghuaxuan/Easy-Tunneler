@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
   import { reactive, watch, ref } from 'vue'
   import { store } from '@/store'
   import rules from '@/rules'

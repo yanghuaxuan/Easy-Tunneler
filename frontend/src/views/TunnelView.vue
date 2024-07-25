@@ -174,7 +174,7 @@ onMounted(async () => {
 <template>
   <v-container>
     <v-row class="d-flex align-center">
-        <v-col>
+        <v-col class="pa-0">
           <h1 class="header">Tunnels</h1>
         </v-col>
         <v-col class="d-flex justify-end">

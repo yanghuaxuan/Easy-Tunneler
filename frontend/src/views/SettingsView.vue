@@ -28,12 +28,12 @@
 
 <template>
   <v-container>
-    <v-row class="d-flex align-center">
-        <v-col>
-          <v-btn @click="$router.replace({ name: 'tunnels' })" class="rounded-button" size="x-large" variant="text"
+    <v-row>
+        <v-col class="pa-0">
+          <v-btn @click="$router.replace({ name: 'tunnels' })" class="rounded-button pa-0" size="x-large" variant="text"
             :icon="mdiArrowLeft" />
         </v-col>
-        <v-col class="d-flex justify-end">
+        <v-col class="d-flex justify-end pa-0">
           <h1 class="header">Settings</h1>
         </v-col>
       </v-row>

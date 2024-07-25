@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { watch } from 'vue'
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 import { store } from '@/store'
 
+const route = useRoute()
 
 watch(store, (newStore) => {
   localStorage.setItem("autorefresh_interval", newStore.autorefresh_interval.toString())
@@ -12,12 +13,11 @@ watch(store, (newStore) => {
 <template>
   <v-layout>
     <v-main>
-      <!-- <RouterView v-slot="{ Component }">
-        <Transition name="slider" mode="out-in">
-          <Component :is="Component" :key="$route.path" />
+      <RouterView v-slot="{ Component }">
+        <Transition :name="route.meta.transition" mode="out-in">
+          <Component :is="Component" />
         </Transition>
-      </RouterView> -->
-      <RouterView />
+      </RouterView>
     </v-main>
   </v-layout>
 </template>
@@ -27,15 +27,24 @@ watch(store, (newStore) => {
   font-size: 3rem;
 }
 
-.slider-enter-active,
-.slider-leave-active {
-  transition: transform 0.25s;
+.slide-right-leave-active {
+  transition: opacity 0.15s, transform 0.15s;
 }
 
-.slider-enter-from,
-.slider-leave-to {
+.slide-right-enter-from,
+.slide-right-leave-to {
   opacity: 0;
-  transform: translateX(-30%);
+  transform: translateX(60%);
+}
+
+.slide-left-leave-active {
+  transition: opacity 0.15s, transform 0.15s;
+}
+
+.slide-left-enter-from,
+.slide-left-leave-to {
+  opacity: 0;
+  transform: translateX(-60%);
 }
 
 .container {

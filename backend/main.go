@@ -35,7 +35,6 @@ func main() {
 	router := gin.Default()
 
 	if os.Getenv("EASY_TUNNELER_PROD") == "1" {
-		// var serv embed.FS
 		router.Use(static.Serve("/", static.LocalFile("./public", false)))
 	} else {
 		/* relax CORS for development */
@@ -61,7 +60,14 @@ func main() {
 		tunnels = make([]Tunnel, 0)
 	}
 
-	spawner := init_spawner(tunnels)
+	ssh_path, err := try_ssh()
+	if (err != nil) {
+		slog.Error("Cannot find SSH! Do you have OpenSSH installed?")
+		return 
+	}
+
+
+	spawner := init_spawner(tunnels, ssh_path)
 
 	/* tunnel.json autosaver*/
 	stop_autosave := make(chan bool)
@@ -89,7 +95,6 @@ func main() {
 		for i := range spawner.tunnels {
 			if spawner.tunnels[i].Enabled {
 				id := spawner.tunnels[i].Id
-				// fmt.Println(*(spawner.procs[id].tunnel))
 				t = append(t, struct {
 					Tunnel Tunnel       `json:"tunnel"`
 					Status TunnelStatus `json:"status"`

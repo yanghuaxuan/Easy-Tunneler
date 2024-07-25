@@ -16,8 +16,11 @@ popd
 # Build backend
 pushd backend
 go build -o easy_tunneler
-cp easy_tunneler ../build
-cp -R ./public ../build/
+mv easy_tunneler ../build
+if [[ -e ../build/public ]]; then
+    rm -Rf ../build/public
+fi
+mv ./public ../build/
 popd
 
 echo 'EASY_TUNNELER_PROD=1 GIN_MODE=release ./easy_tunneler' > build/run.sh; chmod +x build/run.sh

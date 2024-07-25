@@ -56,7 +56,7 @@ func main() {
 		}
 		tunnels = f.Tunnels
 	} else {
-		slog.Warn("tunnels.json not found.")
+		slog.Info("tunnels.json not found. Starting from a fresh instance.")
 		tunnels = make([]Tunnel, 0)
 	}
 

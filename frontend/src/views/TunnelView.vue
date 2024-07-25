@@ -53,7 +53,6 @@ const enableAddOverlay = () => {
   overlayFields.conn_addr = ""
   overlayFields.enabled = true
   overlayFields.autoreboot = true
-  // addOverlay.value = true
   addOverlay.value = true
 }
 
@@ -66,7 +65,6 @@ const enableEditOverlay = (t: Tunnel) => {
   overlayFields.conn_addr = t.conn_addr
   overlayFields.enabled = t.enabled
   overlayFields.autoreboot = t.autoreboot
-  // addOverlay.value = true
   editOverlay.value = true
 }
 

@@ -4,7 +4,6 @@ const checked = defineModel({ default: false })
 </script>
 
 <template>
-    <!-- <input type="checkbox" class="tunnel-switch" @click.stop="console.log('xd')"> -->
     <label class="switch">
     <input v-model="checked" type="checkbox" class="no-checkbox">
     <span class="slider"></span>
@@ -16,7 +15,6 @@ const checked = defineModel({ default: false })
       display: none;
     }
 
-    /* The switch container */
     .switch {
       position: relative;
       display: inline-block;
@@ -25,7 +23,6 @@ const checked = defineModel({ default: false })
       border-top: 500px;
     }
 
-    /* The slider */
     .slider {
       position: absolute;
       cursor: pointer;
@@ -33,7 +30,6 @@ const checked = defineModel({ default: false })
       left: 0;
       right: 0;
       bottom: 0;
-      /* background-color: var(--color-outline); */
       background-color: var(--color-surface-container-highest);
       transition: 0.4s;
       border-radius: 34px;

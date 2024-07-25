@@ -1,16 +1,13 @@
 package main
 
 import (
-	// "bytes"
 	"bufio"
 	"fmt"
 	"io"
 	"log/slog"
 	"os/exec"
 	"time"
-
 	"math/rand"
-	// "time"
 )
 
 const AUTOREBOOT_TIMEOUT = time.Second * 30
@@ -39,7 +36,6 @@ type Tunnel_Process struct {
 	tunnel          Tunnel
 	status          TunnelStatus
 	autoreboot_chan chan bool
-	// history string
 }
 
 type Spawner struct {
@@ -104,13 +100,6 @@ func init_spawner(tun []Tunnel) Spawner {
 		t := tun[i]
 		s.tunnels[t.Id] = t
 		if t.Enabled {
-			// proc := kickstart(t)
-			// log.Println("init_spawner: ", proc.tunnel)
-			// proc_map[t.Id] = &proc
-			// go track_exit(&proc)
-			// if t.Autoreboot {
-			// 	go auto_reboot_on_sig(&proc)
-			// }
             s.start_tunnel(t.Id)
 		}
 	}
@@ -159,7 +148,6 @@ func auto_reboot_on_sig(proc *Tunnel_Process) {
 
 	tun := proc.tunnel
 	cmd := exec.Command("ssh", "-o", "ExitOnForwardFailure=yes", "-N", "-L", fmt.Sprintf("%d:%s:%d", tun.Local_port, tun.Host, tun.Remote_port), tun.Conn_addr)
-	// cmd.Stderr = os.Stderr
 	stderr, err := cmd.StderrPipe()
 	if (err == nil) {
 		go log_tunnel(tun, stderr)
@@ -168,8 +156,6 @@ func auto_reboot_on_sig(proc *Tunnel_Process) {
 	}
 	proc.cmd = cmd
 	slog.Debug(cmd.String())
-	// var stderrBuffer bytes.Buffer
-	// cmd.Stderr = &stderrBuffer
 	err = cmd.Start()
 	proc.status = Online
 	if err != nil {
@@ -185,7 +171,6 @@ func auto_reboot_on_sig(proc *Tunnel_Process) {
 /* start SSH session for tunnel and return its process */
 func kickstart(tun Tunnel) Tunnel_Process {
 	cmd := exec.Command("/usr/bin/ssh", "-o", "ExitOnForwardFailure yes", "-N", "-L", fmt.Sprintf("%d:%s:%d", tun.Local_port, tun.Host, tun.Remote_port), tun.Conn_addr)
-	// cmd.Stderr = os.Stderr
 	stderr, err := cmd.StderrPipe()
 	if (err == nil) {
 		go log_tunnel(tun, stderr)
@@ -194,8 +179,6 @@ func kickstart(tun Tunnel) Tunnel_Process {
 	}
 	status := Online
 	slog.Debug(cmd.String())
-	// var stderrBuffer bytes.Buffer
-	// cmd.Stderr = &stderrBuffer
 	err = cmd.Start()
 	if err != nil {
 		status = Disconnected

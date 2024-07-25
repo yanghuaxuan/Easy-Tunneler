@@ -10,7 +10,6 @@ import (
 	"github.com/gin-contrib/cors"
 	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
-	// "github.com/gorilla/websocket"
 )
 
 const AUTOSAVE_INTERVAL = time.Second * 60
@@ -52,7 +51,6 @@ func main() {
 		slog.Info("./tunnels.json found! Loading saved configuration")
 		var f Tunnels_header
 		err = json.Unmarshal(dat, &f)
-		// fmt.Println("=====", f.Tunnels)
 		if err != nil {
 			slog.Error("Error occured while processing tunnels.json: ", slog.Any("error", err))
 			return
@@ -85,11 +83,6 @@ func main() {
 	}()
 
 	const apiv1 = "/api/v1"
-
-	// router.GET("/", func(c *gin.Context) {
-	// 	router.LoadHTMLFiles("index.html")
-	// 	c.HTML(200, "index.html", gin.H{})
-	// })
 
 	router.GET(apiv1+"/tunnel_status", func(c *gin.Context) {
 		t := make([]interface{}, 0)
@@ -188,7 +181,6 @@ func main() {
 	router.PATCH(apiv1+"/update_tunnel", func(c *gin.Context) {
 		var newT Tunnel
 		if err := c.BindJSON(&newT); err != nil {
-			// slog.Warn(err)
 			c.JSON(400, gin.H{
 				"status": "Invalid JSON!",
 			})

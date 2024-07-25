@@ -21,7 +21,6 @@
   watch(settings, () => {
     if (!unsaved.value) {
       unsaved.value = true
-      console.log("You have unsaved changes!")
     }
   })
 </script>

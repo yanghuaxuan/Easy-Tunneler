@@ -39,8 +39,26 @@ type Tunnel_Process struct {
 }
 
 type Spawner struct {
-	tunnels map[string]Tunnel
-	procs   map[string]*Tunnel_Process
+	tunnels 	map[string]Tunnel
+	procs   	map[string]*Tunnel_Process
+	ssh_path	string
+}
+
+/* try to get SSH executable */
+func try_ssh() (string, error) {
+	p, err := exec.LookPath("ssh")
+	if (err == nil) {
+		return p, nil
+	}
+	p, err = exec.LookPath("/usr/bin/ssh")
+	if (err == nil) {
+		return p, nil
+	}
+	p, err = exec.LookPath("/data/data/com.termux/files/usr/bin/ssh")
+	if (err == nil) {
+		return p, nil
+	}
+	return "", err
 }
 
 /* stops a tunnel, if it exists in proc */
@@ -72,11 +90,11 @@ func (s *Spawner) start_tunnel(tunId string) {
 		return
 	}
 
-    proc := kickstart(tun)
+    proc := kickstart(tun, s.ssh_path)
     s.procs[tunId] = &proc
     go track_exit(&proc)
     if tun.Autoreboot {
-        go auto_reboot_on_sig(&proc)
+        go auto_reboot_on_sig(&proc, s.ssh_path)
     }
 }
 
@@ -90,11 +108,11 @@ func genId(n int) string {
 	return string(b)
 }
 
-func init_spawner(tun []Tunnel) Spawner {
+func init_spawner(tun []Tunnel, ssh_path string) Spawner {
 	tun_map := make(map[string]Tunnel)
 	proc_map := make(map[string]*Tunnel_Process)
 
-    s := Spawner{tun_map, proc_map}
+    s := Spawner{tun_map, proc_map, ssh_path}
 
 	for i := range tun {
 		t := tun[i]
@@ -104,7 +122,7 @@ func init_spawner(tun []Tunnel) Spawner {
 		}
 	}
 
-	return Spawner{tun_map, proc_map}
+	return Spawner{tun_map, proc_map, "ssh"}
 }
 
 func track_exit(tun *Tunnel_Process) {
@@ -133,7 +151,7 @@ func log_tunnel(tun Tunnel, rc io.ReadCloser) {
 }
 
 /* attempts to start the SSH process if autoreboot_chan received a true value.  */
-func auto_reboot_on_sig(proc *Tunnel_Process) {
+func auto_reboot_on_sig(proc *Tunnel_Process, ssh_path string) {
 	if proc == nil {
 		return
 	}
@@ -147,7 +165,7 @@ func auto_reboot_on_sig(proc *Tunnel_Process) {
 	slog.Debug("Autorebooting!")
 
 	tun := proc.tunnel
-	cmd := exec.Command("ssh", "-o", "ExitOnForwardFailure=yes", "-N", "-L", fmt.Sprintf("%d:%s:%d", tun.Local_port, tun.Host, tun.Remote_port), tun.Conn_addr)
+	cmd := exec.Command(ssh_path, "-o", "ExitOnForwardFailure=yes", "-N", "-L", fmt.Sprintf("%d:%s:%d", tun.Local_port, tun.Host, tun.Remote_port), tun.Conn_addr)
 	stderr, err := cmd.StderrPipe()
 	if (err == nil) {
 		go log_tunnel(tun, stderr)
@@ -165,12 +183,12 @@ func auto_reboot_on_sig(proc *Tunnel_Process) {
 	}
 
 	time.Sleep(AUTOREBOOT_TIMEOUT)
-	go auto_reboot_on_sig(proc)
+	go auto_reboot_on_sig(proc, ssh_path)
 }
 
 /* start SSH session for tunnel and return its process */
-func kickstart(tun Tunnel) Tunnel_Process {
-	cmd := exec.Command("/usr/bin/ssh", "-o", "ExitOnForwardFailure yes", "-N", "-L", fmt.Sprintf("%d:%s:%d", tun.Local_port, tun.Host, tun.Remote_port), tun.Conn_addr)
+func kickstart(tun Tunnel, ssh_path string) Tunnel_Process {
+	cmd := exec.Command(ssh_path, "-o", "ExitOnForwardFailure yes", "-N", "-L", fmt.Sprintf("%d:%s:%d", tun.Local_port, tun.Host, tun.Remote_port), tun.Conn_addr)
 	stderr, err := cmd.StderrPipe()
 	if (err == nil) {
 		go log_tunnel(tun, stderr)

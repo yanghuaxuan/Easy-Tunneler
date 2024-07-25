@@ -60,7 +60,14 @@ func main() {
 		tunnels = make([]Tunnel, 0)
 	}
 
-	spawner := init_spawner(tunnels)
+	ssh_path, err := try_ssh()
+	if (err != nil) {
+		slog.Error("Cannot find SSH! Do you have OpenSSH installed?")
+		return 
+	}
+
+
+	spawner := init_spawner(tunnels, ssh_path)
 
 	/* tunnel.json autosaver*/
 	stop_autosave := make(chan bool)

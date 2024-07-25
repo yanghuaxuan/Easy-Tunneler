@@ -14,6 +14,11 @@ Inspired by [wg-easy](https://github.com/wg-easy/wg-easy), Easy-Tunneler makes a
 - 🔒 Based on OpenSSH, the most widely used and audited SSH implementation in the world. Also does not require root privileges to function
 - ⚡ Designed to be ran daily on phones; uses little to no resources!
 
+# Installing
+Prebuilt binaries are available for Android, Arm Macs, and amd64 Linux. 
+1. Download binaries using something like `curl` or `wget`. For instance, to download binaries for Android
+  ```curl -O https://github.com/yanghuaxuan/Easy-Tunneler/releases/latest/download/android_arm64.tar.gz```
+
 # Building from Source
 1. Clone this repository
 `git clone https://github.com/yanghuaxuan/Easy-Tunneler/`

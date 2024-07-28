@@ -170,7 +170,7 @@ onMounted(async () => {
 </script>
 
 <template>
-  <v-container>
+  <v-container class="tunnel-container">
     <v-row class="d-flex align-center">
         <v-col class="pa-0">
           <h1 class="header">Tunnels</h1>
@@ -179,30 +179,50 @@ onMounted(async () => {
           <v-btn @click="$router.replace({ name: 'settings' })" class="rounded-button" size="x-large" variant="text"
             :icon="mdiWrenchOutline" />
         </v-col>
-      </v-row>
-    <v-row>
-      <p>{{ msgAutoRefresh }}</p>
     </v-row>
-    <v-row v-for="t in tunnels" :key="t.tunnel.id">
+    <v-row>
       <v-col>
-        <v-card @click="enableEditOverlay(t.tunnel)" rounded="xl" class="pa-8 container" variant="flat">
-          <v-row class="d-flex align-center">
-            <v-col cols="2" class="d-flex justify-center">
-              <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="8" cy="8" r="8"
-                  :fill="(t.status != undefined) ? ((t.status) ? 'green' : 'red') : 'black'" />
-              </svg>
-            </v-col>
-            <v-col cols="5">
-              <h3>{{ t.tunnel.name }}</h3>
-            </v-col>
-            <v-col cols="5" class="d-flex justify-end">
-              <TunnelSwitch v-model="t.tunnel.enabled" @click.stop="" />
-            </v-col>
-          </v-row>
-        </v-card>
+        <p>{{ msgAutoRefresh }}</p>
       </v-col>
     </v-row>
+    <v-row v-if="tunnels.length != 0">
+      <v-row v-for="t in tunnels" :key="t.tunnel.id">
+        <v-col>
+          <v-card @click="enableEditOverlay(t.tunnel)" rounded="xl" class="pa-8 container" variant="flat">
+            <v-row class="d-flex align-center">
+              <v-col cols="2" class="d-flex justify-center">
+                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="8" cy="8" r="8"
+                    :fill="(t.status != undefined) ? ((t.status) ? 'green' : 'red') : 'black'" />
+                </svg>
+              </v-col>
+              <v-col cols="5">
+                <h3>{{ t.tunnel.name }}</h3>
+              </v-col>
+              <v-col cols="5" class="d-flex justify-end">
+                <TunnelSwitch v-model="t.tunnel.enabled" @click.stop="" />
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-row>
+    <v-row v-else class="fill-height d-flex align-center">
+      <v-col class="empty-hint">
+        <v-row>
+          <v-col class="d-flex justify-end">
+            <h1>No configured tunnels.</h1>
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col class="d-flex justify-end">
+            <p>Click on + to get started!</p>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
+
+
     <v-dialog  max-width=500 v-model="editOverlay">
       <template v-slot:default="{ }">
         <v-card rounded="xl">
@@ -324,6 +344,13 @@ onMounted(async () => {
 </template>
 
 <style scoped>
+.tunnel-container {
+  height: 100dvh;
+}
+.empty-hint {
+  color: gray;
+  user-select: none;
+}
 .v-card-title {
   font-size: 1.6em;
   font-weight: bold;

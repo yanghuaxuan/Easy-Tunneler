@@ -15,9 +15,15 @@ Inspired by [wg-easy](https://github.com/wg-easy/wg-easy), Easy-Tunneler makes a
 - ⚡ Designed to be ran daily on phones; uses little to no resources!
 
 # Installing
-Prebuilt binaries are available for Android, Arm Macs, and amd64 Linux. 
-1. Download binaries using something like `curl` or `wget`. For instance, to download binaries for Android
+Prebuilt binaries are available for Android, Arm Macs, and amd64 Linux. To run on Android phones, use something like [Termux](https://termux.dev/en/)
+1. Download binaries using something like `curl` or `wget`. For instance, to download binaries for Android  
   ```curl -O https://github.com/yanghuaxuan/Easy-Tunneler/releases/latest/download/android_arm64.tar.gz```
+2. Make a new directory, and extract the files with `tar`
+  ```
+  mkdir easy_tunneler
+  cd easy_tunneler
+  tar -xzf ../android_arm64.tar.gz
+  ```
 
 # Building from Source
 1. Clone this repository
@@ -26,14 +32,16 @@ Prebuilt binaries are available for Android, Arm Macs, and amd64 Linux.
 3. Run the build script
 `./build.sh`
 
-## Running
-After building from source:
-1. cd into `build`
-2. Run the `run.sh` script provided
-
 # Usage
 You must have OpenSSH installed, and also have key-based authentication setup for the server you're connecting to. Password-based authentication is not supported for security purposes.
 - See this [guide](https://www.digitalocean.com/community/tutorials/how-to-configure-ssh-key-based-authentication-on-a-linux-server) on how to setup key based authentication
+  
+Once you have that, use the provided `run.sh` to run easy-tunneler
+```
+  ./run.sh
+```
+
+Now the frontend is available at http://localhost:4140. Use your favorite browser to manage your tunnels.
 
 # Credits
 - [The OpenBSD Pufferfish](https://www.openbsd.org/)

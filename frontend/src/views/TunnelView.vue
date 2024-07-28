@@ -148,7 +148,7 @@ const autoRefreshSeconds = ref(refreshInteval)
 const autorefresh = async () => {
   if (autoRefreshSeconds.value == 0) {
     await fetchTunnels()
-    autoRefreshSeconds.value = refreshInteval 
+    autoRefreshSeconds.value = refreshInteval
   } else {
     autoRefreshSeconds.value -= 1;
   }
@@ -162,9 +162,9 @@ const msgAutoRefresh = computed(() => {
 })
 
 onMounted(async () => {
-    await fetchTunnels()
-    setInterval(autorefresh, 1000)
-  }
+  await fetchTunnels()
+  setInterval(autorefresh, 1000)
+}
 )
 
 </script>
@@ -172,13 +172,13 @@ onMounted(async () => {
 <template>
   <v-container class="tunnel-container">
     <v-row class="d-flex align-center">
-        <v-col class="pa-0">
-          <h1 class="header">Tunnels</h1>
-        </v-col>
-        <v-col class="d-flex justify-end">
-          <v-btn @click="$router.replace({ name: 'settings' })" class="rounded-button" size="x-large" variant="text"
-            :icon="mdiWrenchOutline" />
-        </v-col>
+      <v-col class="pa-0">
+        <h1 class="header">Tunnels</h1>
+      </v-col>
+      <v-col class="d-flex justify-end">
+        <v-btn @click="$router.replace({ name: 'settings' })" class="rounded-button" size="x-large" variant="text"
+          :icon="mdiWrenchOutline" />
+      </v-col>
     </v-row>
     <v-row>
       <v-col>
@@ -186,26 +186,28 @@ onMounted(async () => {
       </v-col>
     </v-row>
     <v-row v-if="tunnels.length != 0">
-      <v-row v-for="t in tunnels" :key="t.tunnel.id">
-        <v-col>
-          <v-card @click="enableEditOverlay(t.tunnel)" rounded="xl" class="pa-8 container" variant="flat">
-            <v-row class="d-flex align-center">
-              <v-col cols="2" class="d-flex justify-center">
-                <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
-                  <circle cx="8" cy="8" r="8"
-                    :fill="(t.status != undefined) ? ((t.status) ? 'green' : 'red') : 'black'" />
-                </svg>
-              </v-col>
-              <v-col cols="5">
-                <h3>{{ t.tunnel.name }}</h3>
-              </v-col>
-              <v-col cols="5" class="d-flex justify-end">
-                <TunnelSwitch v-model="t.tunnel.enabled" @click.stop="" />
-              </v-col>
-            </v-row>
-          </v-card>
-        </v-col>
-      </v-row>
+      <v-col>
+        <v-row v-for="t in tunnels" :key="t.tunnel.id">
+          <v-col>
+            <v-card @click="enableEditOverlay(t.tunnel)" rounded="xl" class="pa-8 container" variant="flat">
+              <v-row class="d-flex align-center">
+                <v-col cols="2" class="d-flex justify-center">
+                  <svg width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="8" cy="8" r="8"
+                      :fill="(t.status != undefined) ? ((t.status) ? 'green' : 'red') : 'black'" />
+                  </svg>
+                </v-col>
+                <v-col cols="5">
+                  <h3>{{ t.tunnel.name }}</h3>
+                </v-col>
+                <v-col cols="5" class="d-flex justify-end">
+                  <TunnelSwitch v-model="t.tunnel.enabled" @click.stop="" />
+                </v-col>
+              </v-row>
+            </v-card>
+          </v-col>
+        </v-row>
+      </v-col>
     </v-row>
     <v-row v-else class="fill-height d-flex align-center">
       <v-col class="empty-hint">
@@ -223,7 +225,7 @@ onMounted(async () => {
     </v-row>
 
 
-    <v-dialog  max-width=500 v-model="editOverlay">
+    <v-dialog max-width=500 v-model="editOverlay">
       <template v-slot:default="{ }">
         <v-card rounded="xl">
           <v-card-title>
@@ -240,20 +242,24 @@ onMounted(async () => {
             <v-form v-model="editForm">
               <v-row>
                 <v-col>
-                  <v-text-field :rules="[rules.required]" label="Name" v-model="overlayFields.name" variant="outlined"></v-text-field>
+                  <v-text-field :rules="[rules.required]" label="Name" v-model="overlayFields.name"
+                    variant="outlined"></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <v-text-field :rules="[rules.required]" label="Host" v-model="overlayFields.host" variant="outlined"></v-text-field>
+                  <v-text-field :rules="[rules.required]" label="Host" v-model="overlayFields.host"
+                    variant="outlined"></v-text-field>
                 </v-col>
               </v-row>
               <v-row dense>
                 <v-col>
-                  <v-text-field :rules="[rules.required, rules.integers]" label="Local Port" v-model="overlayFields.local_port" variant="outlined"></v-text-field>
+                  <v-text-field :rules="[rules.required, rules.integers]" label="Local Port"
+                    v-model="overlayFields.local_port" variant="outlined"></v-text-field>
                 </v-col>
                 <v-col>
-                  <v-text-field :rules="[rules.required, rules.integers]" label="Remote Port" v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
+                  <v-text-field :rules="[rules.required, rules.integers]" label="Remote Port"
+                    v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
@@ -264,7 +270,8 @@ onMounted(async () => {
               </v-row>
               <v-row>
                 <v-col>
-                  <v-switch label="Autoreboot" color="var(--color-primary-container)" v-model="overlayFields.autoreboot" />
+                  <v-switch label="Autoreboot" color="var(--color-primary-container)"
+                    v-model="overlayFields.autoreboot" />
                 </v-col>
               </v-row>
               <v-row class="d-flex justify-right">
@@ -274,7 +281,8 @@ onMounted(async () => {
                 </v-col>
                 <v-spacer cols />
                 <v-col cols="3" class="d-flex justify-end">
-                  <v-btn :color="colors.blue.base" :disabled="!editForm" @click="editTunFromOverlay(); editOverlay = false" variant="plain">Save</v-btn>
+                  <v-btn :color="colors.blue.base" :disabled="!editForm"
+                    @click="editTunFromOverlay(); editOverlay = false" variant="plain">Save</v-btn>
                 </v-col>
               </v-row>
             </v-form>
@@ -301,26 +309,30 @@ onMounted(async () => {
             <v-form v-model="addForm">
               <v-row>
                 <v-col>
-                  <v-text-field :rules="[rules.required]" label="Name" v-model="overlayFields.name" variant="outlined"></v-text-field>
+                  <v-text-field :rules="[rules.required]" label="Name" v-model="overlayFields.name"
+                    variant="outlined"></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <v-text-field :rules="[rules.required]" label="Host" v-model="overlayFields.host" variant="outlined"></v-text-field>
+                  <v-text-field :rules="[rules.required]" label="Host" v-model="overlayFields.host"
+                    variant="outlined"></v-text-field>
                 </v-col>
               </v-row>
               <v-row dense>
                 <v-col>
-                  <v-text-field :rules="[rules.required, rules.integers]" label="Local Port" v-model="overlayFields.local_port" variant="outlined"></v-text-field>
+                  <v-text-field :rules="[rules.required, rules.integers]" label="Local Port"
+                    v-model="overlayFields.local_port" variant="outlined"></v-text-field>
                 </v-col>
                 <v-col>
-                  <v-text-field :rules="[rules.required, rules.integers]" label="Remote Port" v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
+                  <v-text-field :rules="[rules.required, rules.integers]" label="Remote Port"
+                    v-model="overlayFields.remote_port" variant="outlined"></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
                 <v-col>
-                  <v-text-field :rules="[rules.required]" placeholder="john@example.com" label="Connection Address" v-model="overlayFields.conn_addr"
-                    variant="outlined"></v-text-field>
+                  <v-text-field :rules="[rules.required]" placeholder="john@example.com" label="Connection Address"
+                    v-model="overlayFields.conn_addr" variant="outlined"></v-text-field>
                 </v-col>
               </v-row>
               <v-row>
@@ -331,7 +343,8 @@ onMounted(async () => {
               </v-row>
               <v-row>
                 <v-col class="d-flex justify-end">
-                  <v-btn :color="colors.blue.base" :disabled="!addForm" @click="addTunFromOverlay(); addOverlay = false" variant="plain">Save</v-btn>
+                  <v-btn :color="colors.blue.base" :disabled="!addForm" @click="addTunFromOverlay(); addOverlay = false"
+                    variant="plain">Save</v-btn>
                 </v-col>
               </v-row>
             </v-form>
@@ -347,10 +360,12 @@ onMounted(async () => {
 .tunnel-container {
   height: 100dvh;
 }
+
 .empty-hint {
   color: gray;
   user-select: none;
 }
+
 .v-card-title {
   font-size: 1.6em;
   font-weight: bold;
